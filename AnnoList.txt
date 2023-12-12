@@ -1,0 +1,7 @@
+hg19
+susScr11
+mm10
+rheMac10
+rn6
+panTro5
+bosTau9
