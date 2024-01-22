@@ -1,0 +1,2 @@
+chrom, seq, strand,idx, pred_prob_class_0, pred_prob_class_1, pred_prob_class_2
+chrUn_NW_020190593v1,T,+,1803,0.9984811544418335,8.129028117309645e-08,0.0015188164543360472
