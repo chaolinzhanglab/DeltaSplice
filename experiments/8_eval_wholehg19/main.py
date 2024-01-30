@@ -21,7 +21,7 @@ def main(species):
         os.mkdir(SAVEPATH)
     if not os.path.exists(SavePath):
         os.mkdir(SavePath)
-    EL = 10000
+    EL = 30000
     W = [
         11,
         11,
@@ -81,7 +81,6 @@ def main(species):
                           optimizer=partial(torch.optim.Adam, lr=1e-3))
         model.load_state_dict(torch.load(m))
         Models.append(model)
-    [_.eval() for _ in Models()]
     if not os.path.exists("PICS"):
         os.mkdir("PICS")
 
