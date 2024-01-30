@@ -1,5 +1,28 @@
-# eSplice
-Pytorch version of eSplice
+# DeltaSplice
+Code for the paper "Reference-informed prediction of alternative splicing and splicing-altering mutations from sequences". All experiments mentioned in the manuscript can be reproduced with the scripts under the experiments/ folder.
+
+## Data preparation
+1. models for MMSplice: 
+>>>
+    cd baselines
+    git clone https://github.com/gagneurlab/MMSplice_paper.git
+    cd ..
+>>>
+2. models for pangolin:
+>>>
+    cd baselines
+    git clone https://github.com/tkzeng/Pangolin.git
+    mv Pangolin/pangolin/models/ pangolin_models
+    cd ..
+>>>
+3. models for spliceai
+>>>
+    cd baselines
+    git clone https://github.com/Illumina/SpliceAI.git
+    mv SpliceAI/spliceai/models spliceai_models
+    cd ..
+>>>
+4. data used in this work is avaiable at xxxx
 
 ## Generate train/test/valid data from bed file
 1. Please refer to gene_dataset.tsu.txt for the format of bed file.
@@ -11,7 +34,7 @@ Pytorch version of eSplice
 >>>
 
 ## Run model training/evaluation
-1. Please refer to example/ for the format of config/test_config/mut_config file
+1. Please refer to configs under folder tasks for the format of config/test_config/mut_config file
 2. Run
 >>>
     python main.py -c path/to/config
@@ -20,33 +43,20 @@ Pytorch version of eSplice
     # test a model: python main.py -c tasks/Pretrain_withcons/test_config
 >>>
 
-## Evaluate on mutation data
-1. Please refer to VexSeq_snps2exon_ref_dataset.txt for the format of input data.
-2. Generate data by
->>>
-    python -m Tools.generate_mutdata /the/path/to/raw/mutation/data /the/path/to/save/processed/data the_name_of_reference_genome
-    ## example
-    #python -m Tools.generate_mutdata /temp/xuchencheng/eSplicedata/Mutations/VexSeq_snps2exon_ref_dataset.txt /temp/xuchencheng/eSplicedata/Species_37_ProcessedData/VexSeq/ hg19
->>>
-3. Set the path in mut_config and run evaluation as
->>>
-    python main_mut.py -c /the/path/to/mut_config
->>>
+## Reproduce experiments mentioned in the manuscript
+1. All scripts for experiments are under the folder experiments. In each folder, run.sh contains all the command lines. Directly run "bash run.sh" can generate all the results.
+2. experiments/9_plot_and_merge.ipynb is used to summarize all the generated results.
 
 ## Quick start with pretrained model
-1. Prepare data
+1. Please refer to VexSeq_snps2exon_ref_dataset.txt for the format of input data.
+2. Write the config file following experiments/2_eval_mut/RefSplice_mut_config.py.
+3. Generate file with:
 >>>
-    bash example/preparedata.sh
+    python -m Tools.generate_mutdata /path/to/data /path/to/save reference genome
+    # example
+    # python -m Tools.generate_mutdata data/VexSeq_snps2exon_ref_dataset.txt data/vexseq/ hg19 
 >>>
-2. Run evaluation with conservation score
+4. Run the valuation with:
 >>>
-    python main.py -c example/test_config_wcons
-    python main_mut.py -c example/mut_config_wcons
-    # check data under TestResultWCons/
->>>
-3. Run evaluation without conservation score
->>>
-    python main.py -c example/test_config_wocons
-    python main_mut.py -c example/mut_config_wocons
-    # check data under TestResultWOCons/
+    python main_mut.py -c /the/path/to/mut_config
 >>>

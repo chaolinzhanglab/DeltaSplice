@@ -3,10 +3,11 @@ import os
 
 # the custom path of data files.
 
-Fapath = "/home/xuchencheng/Data/hgfile/"  # the directory contains .fa file of reference genomes
-AnnoPath = "/temp/xuchencheng/eSplicedata/annotation/"  # the path to save formated expression data
-NpyPath = "/temp/xuchencheng/eSplicedata/Species_37_ProcessedData/Npy"  # the path to save processed train/test/valid data
-TableFile = "/home/xuchencheng/code/WorkDir/gene_dataset.tsu.txt"  # the bed file of gene expression. the table file should in 1-base.
+Fapath = "hgfile/"  # the directory contains .fa file of reference genomes
+AnnoPath = "data/annotation/"  # the path to save formated expression data
+NpyPath = "data/Npy"  # the path to save processed train/test/valid data
+# the bed file of gene expression. the table file should in 1-base.
+TableFile = "data/gene_dataset.tsu.txt"
 
 
 # remain the following unchanged

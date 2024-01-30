@@ -64,8 +64,9 @@ def main():
         for index, d in enumerate(test_data):
             if index % 100 == 99:
                 print("finish {}/{}".format(index, len(test_data)))
+            d.pop("single_pred_psi")
             gt_delta = d["mutY"]  # GT of delta usage
-            pred = [m.predict(d) for m in Models]
+            pred = [m.predict(d, use_ref=False) for m in Models]
             pred_ref = sum([v["single_pred_psi"] for v in pred])/len(pred)
             pred_delta = sum([v["mutY"] for v in pred])/len(pred)-pred_ref
 
@@ -97,7 +98,7 @@ def main():
                 save_dir, "Mutation_{}.png".format("{}+{}".format(path.replace("/", "_"), config.model_path[0].replace("/", "_")))))
         else:
             logger.warning("There are Nan in labels")"""
-        with open(os.path.join(save_dir, "Mutation_{}.txt".format("{}+{}".format(path.replace("/", "_"), config.model_path[0].replace("/", "_")))), "w") as f:
+        with open(os.path.join(save_dir, "Single_Mutation_{}.txt".format("{}+{}".format(path.replace("/", "_"), config.model_path[0].replace("/", "_")))), "w") as f:
             for a, b, c in zip(Pred_delta, Gt_delta, Pred_ref):
                 f.writelines("{}\t{}\t{}\n".format(c, a, b))
 

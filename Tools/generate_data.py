@@ -77,31 +77,54 @@ if __name__ == "__main__":
         os.mkdir(testpath)
 
     Trainidxs, Valididxs, Testidxs = [], [], []
+    loginfo={"train":{}, "test":{}, "valid":{}}
     with open(TableFile, "r") as f:
         expinfo = f.readlines()
     parsedexpinfo = [parse_bed_line(_) for _ in expinfo]
-
+    def add_line_to_loginfo(line, group):
+        fa, chrom, name, strand, _, _, ss3s, ss5s, ss3vs, ss5vs, hgchrom = line
+        if fa not in loginfo[group]:
+            loginfo[group][fa]={"gene":set(), "num_non_nan_3":0, "num_non_nan_5":0, "num_nan_3":0, "num_nan_5":0} 
+        loginfo[group][fa]["gene"].add(name)
+        for idx, value in zip(ss3s, ss3vs):
+            if np.isnan(value) :
+                loginfo[group][fa]["num_nan_3"]+=1
+            else:
+                loginfo[group][fa]["num_non_nan_3"]+=1
+          
+        for idx, value in zip(ss5s, ss5vs):
+            if np.isnan(value) :
+                loginfo[group][fa]["num_nan_5"]+=1
+            else:
+                loginfo[group][fa]["num_non_nan_5"]+=1
+            
     for line in parsedexpinfo:
         fa, chrom, name, strand, _, _, ss3s, ss5s, ss3vs, ss5vs, hgchrom = line
         if fa == "hg19":
             if chrom in Train_Chromes:
+                add_line_to_loginfo(line, "train")
                 for idx, value in zip(ss3s+ss5s, ss3vs+ss5vs):
                     Trainidxs.append([fa, chrom, idx, strand, name])
             elif chrom in Valid_Chromes:
+                add_line_to_loginfo(line, "valid")
                 for idx, value in zip(ss3s+ss5s, ss3vs+ss5vs):
                     Valididxs.append([fa, chrom, idx, strand, name])
             else:
                 assert chrom in Test_Chromes
+                add_line_to_loginfo(line, "test")
                 for idx, value in zip(ss3s+ss5s, ss3vs+ss5vs):
                     Testidxs.append([fa, chrom, idx, strand, name])
         else:
             if hgchrom in Train_Chromes:
+                add_line_to_loginfo(line, "train")
                 for idx, value in zip(ss3s+ss5s, ss3vs+ss5vs):
                     Trainidxs.append([fa, chrom, idx, strand, name])
             elif hgchrom in Valid_Chromes:
+                add_line_to_loginfo(line, "valid")
                 for idx, value in zip(ss3s+ss5s, ss3vs+ss5vs):
                     Valididxs.append([fa, chrom, idx, strand, name])
             elif hgchrom in Test_Chromes:
+                add_line_to_loginfo(line, "test")
                 for idx, value in zip(ss3s+ss5s, ss3vs+ss5vs):
                     Testidxs.append([fa, chrom, idx, strand, name])
             else:
@@ -109,3 +132,8 @@ if __name__ == "__main__":
     main(Trainidxs, trainpath)
     main(Valididxs, validpath)
     main(Testidxs, testpath)
+    for group in loginfo:
+        with open(group, "w") as f:
+            for species in loginfo[group]:
+                f.writelines(",".join([species, str(len(loginfo[group][species]["gene"])), str(loginfo[group][species]["num_nan_3"]), str(loginfo[group][species]["num_non_nan_3"]),str(loginfo[group][species]["num_nan_5"]), str(loginfo[group][species]["num_non_nan_5"])])+"\n")
+            

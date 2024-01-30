@@ -77,13 +77,16 @@ def main():
             os.mkdir(save_dir)
 
         Models = [copy.deepcopy(config.model) for _ in config.model_path]
-        [m.load_state_dict(torch.load(b)) for m, b in zip(Models, config.model_path)]
+        [m.load_state_dict(torch.load(b))
+         for m, b in zip(Models, config.model_path)]
 
         for path in config.testjsonfile:
-            save_path_ = "{}+{}".format(path.replace("/", "_"), "eval"+config.model_path[0].replace("/", "_"))
+            save_path_ = "{}+{}".format(path.replace("/", "_"),
+                                        "eval"+config.model_path[0].replace("/", "_"))
             save_path_ = os.path.join(save_dir, save_path_)
             save_path = []
-            test_data = DataLoader(DataGenerator(EL=config.EL, jsonfile=path), batch_size=config.batch_size, shuffle=False, num_workers=5)
+            test_data = DataLoader(DataGenerator(
+                EL=config.EL, jsonfile=path), batch_size=config.batch_size, shuffle=False, num_workers=5)
             if config.save_files:
                 Y_true_1 = []
                 Y_true_2 = []
@@ -99,11 +102,17 @@ def main():
                     if "mutX" in d:
                         d.pop("mutX")
 
-                    pred = sum([m.predict(d)["single_pred_psi"] for m in Models])/len(Models)
+                    pred = sum([m.predict(d)["single_pred_psi"]
+                               for m in Models])/len(Models)
                     if len(Y.shape) == 4:
                         Y = Y[:, :, 0]
                     assert len(Y.shape) == len(pred.shape)
                     assert len(pred.shape) == 3
+                    ly = Y.shape[1]
+                    bias = pred.shape[1]-ly
+                    assert bias % 2 == 0
+                    pred = pred[:, bias//2:bias//2+ly]
+                    assert Y.shape == pred.shape
 
                     # note that tx_start/tx_end refer to the start/end of input sequence instead of gene start/end
                     CHROM = d["chrom"]
@@ -152,7 +161,8 @@ def main():
                 y_true1[np.isnan(y_true1)] = -1
                 y_true2[np.isnan(y_true2)] = -1
 
-                idx_true1, idx_true2 = np.nonzero(y_true1 > 0+1e-10), np.nonzero(y_true2 > 0+1e-10)
+                idx_true1, idx_true2 = np.nonzero(
+                    y_true1 > 0+1e-10), np.nonzero(y_true2 > 0+1e-10)
                 print(len(idx_true1[0]), len(idx_true2[0]))
 
                 density_scatter(np.asarray(Y_true_1)[idx_true1], np.asarray(Y_pred_1)[idx_true1], "GT", "Pred", os.path.join(

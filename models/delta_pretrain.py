@@ -206,7 +206,7 @@ class MainModel(nn.Module):
         ret = ret.detach().cpu().numpy()
         return ret
 
-    def predict(self, d):
+    def predict(self, d, use_ref=True):
         self.eval()
         with torch.no_grad():
             X = d["X"].cuda().float()
@@ -217,8 +217,12 @@ class MainModel(nn.Module):
                     exp = torch.cat([exp, exp], 0)
                 else:
                     exp = None
-                Pred = self.get_eval_res(
-                    torch.cat([X, mutX], 0), torch.cat([X, X], 0), exp)
+                if use_ref:
+                    Pred = self.get_eval_res(
+                        torch.cat([X, mutX], 0), torch.cat([X, X], 0), exp)
+                else:
+                    Pred = self.get_eval_res(
+                        torch.cat([X, mutX], 0))
                 Pred, MutPred = Pred[:1], Pred[1:]
 
                 ret = {"single_pred_psi": Pred, "mutY": MutPred}
