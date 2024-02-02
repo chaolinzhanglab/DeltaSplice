@@ -24,22 +24,6 @@ def parse_bed_line(line):
     ss5vs = [max(float(x), eps) for x in ss5vs.split(",") if len(x) > 0]
     return fa, chrom, name, strand, int(start)-1, int(end)-1, ss3s, ss5s, ss3vs, ss5vs, hgchrom
 
-
-def get_anno_list():
-    with open("AnnoList.txt", "r") as f:
-        content = f.readlines()
-    content = [x.replace("\n", "") for x in content]
-    return content
-
-
-def get_species_list():
-    with open("SpeciesList.txt", "r") as f:
-        content = f.readlines()
-    content = [x.replace("\n", "") for x in content]
-    content = [x[0].upper()+x[1:] for x in content]
-    return content
-
-
 def density_scatter(x, y, x_name, y_name, savepath, bins=50, sort=True):
     plt.figure()
 
