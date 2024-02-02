@@ -2,7 +2,7 @@ from loguru import logger
 import os
 import numpy as np
 from utils import parse_bed_line
-from config import AnnoPath, TableFile
+from constant import AnnoPath, TableFile
 import json
 
 

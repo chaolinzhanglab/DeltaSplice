@@ -10,7 +10,7 @@ from scipy.interpolate import interpn
 from torch.utils.data import Dataset
 import torch
 import json
-from config import Fapath, IN_MAP, repdict, SeqTable
+from constant import Fapath, IN_MAP, repdict, SeqTable
 from pyfasta import Fasta
 
 

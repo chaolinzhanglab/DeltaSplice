@@ -22,14 +22,20 @@ Code for the paper "Reference-informed prediction of alternative splicing and sp
     mv SpliceAI/spliceai/models spliceai_models
     cd ..
 >>>
-4. data used in this work is avaiable at xxxx
+4. download reference files
+>>>
+    bash Tools/download_files.sh
+>>>
+5. data used in this work is avaiable at xxxx
 
 ## Generate train/test/valid data from bed file
 1. Please refer to gene_dataset.tsu.txt for the format of bed file.
-2. Change the custom path in config.py
+2. Change the custom path in ./config.py
 3. Run
 >>>
+    #Generate annotation on genome
     python -m Tools.annotate_gene
+    #Generate data for training/testing/validation
     python -m Tools.generate_data
 >>>
 
@@ -37,10 +43,10 @@ Code for the paper "Reference-informed prediction of alternative splicing and sp
 1. Please refer to configs under folder tasks for the format of config/test_config/mut_config file
 2. Run
 >>>
-    python main.py -c path/to/config
-    ## examples
-    # train a model: python main.py -c tasks/Pretrain_withcons/config
-    # test a model: python main.py -c tasks/Pretrain_withcons/test_config
+    # train a model: 
+    python main.py -c tasks/Differential_rep0/config
+    # test a model: 
+    python main.py -c tasks/Differential_rep0/test_config
 >>>
 
 ## Reproduce experiments mentioned in the manuscript
