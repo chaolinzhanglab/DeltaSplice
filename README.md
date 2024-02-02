@@ -1,55 +1,70 @@
 # DeltaSplice
-Code for the paper "Reference-informed prediction of alternative splicing and splicing-altering mutations from sequences". All experiments mentioned in the manuscript can be reproduced with the scripts under the experiments/ folder.
+Code for the paper "Reference-informed prediction of alternative splicing and splicing-altering mutations from sequences". 
 
 ## Data preparation
-1. models for MMSplice: 
+
+Download genome reference and liftOver files from UCSC
 >>>
-    cd baselines
-    git clone https://github.com/gagneurlab/MMSplice_paper.git
-    cd ..
+    bash Tools/download_files.sh
 >>>
-2. models for pangolin:
+
+## Generate train/test/valid data from gene annotation file
+
+1. 'gene_dataset.tsu.txt' contains splice site usage in the adult brains of eight mammalian species.
+2. Change the custom path in constant.py if necessary
+3. Run
 >>>
-    cd baselines
-    git clone https://github.com/tkzeng/Pangolin.git
-    mv Pangolin/pangolin/models/ pangolin_models
-    cd ..
+    #Generate gene annotations on the genome
+    python -m Tools.annotate_gene
+
+    #Generate data for training/testing/validation
+    python -m Tools.generate_data
 >>>
-3. models for spliceai
+
+## Run model training/evaluation
+
+1. Please refer to configs under tasks/ for the format of config/test_config/mut_config file
+2. Run
+>>>
+    # train a model: 
+    python main.py -c tasks/DeltaSplice_rep0/config
+
+    # test a model: 
+    python main.py -c tasks/DeltaSplice_rep0/test_config
+>>>
+
+
+## Reproduce experiments mentioned in the manuscript
+
+Pre-trained models for baseline methods:
+
+1. SpliceAI
 >>>
     cd baselines
     git clone https://github.com/Illumina/SpliceAI.git
     mv SpliceAI/spliceai/models spliceai_models
     cd ..
 >>>
-4. download reference files
+
+2. pangolin:
 >>>
-    bash Tools/download_files.sh
+    cd baselines
+    git clone https://github.com/tkzeng/Pangolin.git
+    mv Pangolin/pangolin/models/ pangolin_models
+    cd ..
 >>>
 
-## Generate train/test/valid data from bed file
-1. Please refer to data/gene_dataset.tsu.txt for the format of bed file.
-2. Change the custom path in constant.py
-3. Run
+3. MMSplice: 
 >>>
-    #Generate annotation on genome
-    python -m Tools.annotate_gene
-    #Generate data for training/testing/validation
-    python -m Tools.generate_data
+    cd baselines
+    git clone https://github.com/gagneurlab/MMSplice_paper.git
+    cd ..
 >>>
 
-## Run model training/evaluation
-1. Please refer to configs under tasks/ for the format of config/test_config/mut_config file
-2. Run
->>>
-    # train a model: 
-    python main.py -c tasks/DeltaSplice_rep0/config
-    # test a model: 
-    python main.py -c tasks/DeltaSplice_rep0/test_config
->>>
 
-## Reproduce experiments mentioned in the manuscript
-1. All scripts for experiments are under the folder experiments. In each folder, run.sh contains all the command lines. Directly run "bash run.sh" can generate all the results.
+All experiments mentioned in the manuscript can be reproduced with the scripts under the experiments/ folder.
+
+In each folder, run.sh contains all the command lines. Directly run "bash run.sh" can generate all the results.
 
 ## Quick start with pretrained model
 1. Please refer to VexSeq_snps2exon_ref_dataset.txt for the format of input data.
