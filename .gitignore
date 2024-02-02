@@ -1,3 +1,4 @@
 *__pycache__*
 fafiles/
 *test_results/
+*.log
