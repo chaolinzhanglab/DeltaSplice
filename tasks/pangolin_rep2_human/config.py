@@ -28,8 +28,8 @@ class config:
     withcons = withcons
 
     # for training, can be ignored in test process, except the path to test data
-    trainjsonfile = "/temp/xuchencheng/eSplicedata/Species_37_ProcessedData/Npy/train/human.json"
-    validjsonfile = "/temp/xuchencheng/eSplicedata/Species_37_ProcessedData/Npy/valid/human.json"
+    trainjsonfile = "data/Npy/train/human.json"
+    validjsonfile = "data/Npy/valid/human.json"
 
     testjsonfile = None  # data_path+"dataset_test.hdf5"
     mut_data = None

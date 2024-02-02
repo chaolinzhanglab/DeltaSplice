@@ -63,25 +63,25 @@ withcons = False
 optimizer = partial(torch.optim.Adam, lr=2e-3)
 model = MainModel(64, W, AR, 0.3, EL=EL, optimizer=optimizer, scheduler=partial(torch.optim.lr_scheduler.StepLR, step_size=1, gamma=0.5))
 
-path = "tasks/DeltaSplice_human_rep0/"
+path = "tasks/DeltaSplice_rep2/"
 
 
 class config:
     log_path = path + "train.log"
     save_path = path
-    seed = 321
+    seed = 976
     EL = EL
     batch_size = 8 * get_available_gpus()
     withcons = withcons
 
     # for training, can be ignored in test process, except the path to test data
-    trainjsonfile = "data/Npy/train/human.json"
+    trainjsonfile = "data/Npy/train/data.json"
     validjsonfile = "data/Npy/valid/human.json"
     mut_data = "data/vexseq/data.json"
     testjsonfile = None  # data_path+"dataset_test.hdf5"
     mut_data = None
     model = model
-    epoch_num = 10
+    epoch_num = 5
     num_workers = 5  # number of dataloader workers
 
     # for evaluation , can be ignored in training process

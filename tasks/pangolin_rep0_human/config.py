@@ -24,12 +24,12 @@ class config:
     save_path = path
     seed = 321
     EL = EL
-    batch_size = 16 * get_available_gpus()
+    batch_size = 14 * get_available_gpus()
     withcons = withcons
 
     # for training, can be ignored in test process, except the path to test data
-    trainjsonfile = "/temp/xuchencheng/eSplicedata/Species_37_ProcessedData/Npy/train/human.json"
-    validjsonfile = "/temp/xuchencheng/eSplicedata/Species_37_ProcessedData/Npy/valid/human.json"
+    trainjsonfile = "data/Npy/train/human.json"
+    validjsonfile = "data/Npy/valid/human.json"
 
     testjsonfile = None  # data_path+"dataset_test.hdf5"
     mut_data = None
