@@ -34,7 +34,7 @@ Download genome reference and liftOver files from UCSC
 >>>
 
 
-## Reproduce experiments mentioned in the manuscript
+## Reproduce experiments described in the manuscript
 
 Pre-trained models for baseline methods:
 
@@ -46,7 +46,7 @@ Pre-trained models for baseline methods:
     cd ..
 >>>
 
-2. pangolin:
+2. pangolin
 >>>
     cd baselines
     git clone https://github.com/tkzeng/Pangolin.git
@@ -54,7 +54,7 @@ Pre-trained models for baseline methods:
     cd ..
 >>>
 
-3. MMSplice: 
+3. MMSplice 
 >>>
     cd baselines
     git clone https://github.com/gagneurlab/MMSplice_paper.git
