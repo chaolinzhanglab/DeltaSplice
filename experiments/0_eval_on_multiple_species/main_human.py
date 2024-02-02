@@ -5,7 +5,7 @@ import torch
 from torch.utils.data import Dataset
 import json
 import os
-from config import repdict, SeqTable, IN_MAP
+from constant import repdict, SeqTable, IN_MAP
 from models.delta_pretrain import MainModel
 from functools import partial
 import matplotlib.pyplot as plt
@@ -20,7 +20,7 @@ plt.rc("font", size=18)
 
 DataPath = "data/Hg19VsOthers/"
 SavePath = "experiments/0_eval_on_multiple_species/test_results"
-ModelPrefix = "RefSplice_models_human"
+ModelPrefix = "DeltaSplice_human"
 ModelPath = [os.path.join(ModelPrefix, x) for x in os.listdir(ModelPrefix)]
 Species = ["susScr11", "mm10", "rheMac10", "rn6", "panTro5", "bosTau9"]
 revseqtable = ["A", "C", "G", "T"]
@@ -181,36 +181,7 @@ def main():
                 N = 50
                 assert len(hg19_gt) == i+1
 
-                '''if len(pred) > 2:
-                    fig=plt.figure(figsize=[16,6])
-                    ax1=fig.add_subplot("111")
-                    ax2=ax1.twiny()
-                    hgseq=d["transition_seq"][0].argmax(-1)
-                    targetseq=d["transition_seq"][-1].argmax(-1)
-                    idx=len(hgseq)//2
-                    hgseq=[revseqtable[_] for _ in hgseq[idx-N//2:idx+N//2+1]]
-                    targetseq=[revseqtable[_] for _ in targetseq[idx-N//2:idx+N//2+1]]
-                    for j in range(len(d["transition_seq"])-2):
-                        seq=d["transition_seq"][j+1].argmax(-1)[idx-N//2:idx+N//2+1]
-                        seq=[revseqtable[_] for _ in seq]
-                        for k in range(len(seq)):
-                            if seq[k]!=hgseq[k]:
-                                assert seq[k]==targetseq[k]
-                                ax1.scatter([k], [pred[j+1]], c="blue", s=100)
-                    ax1.plot(range(N), [pred[0] for _ in range(N)], label="Predicted usage of the hg19 sequence", c="r", linestyle="dotted")
-                    ax1.plot(range(N), [pred[-1] for _ in range(N)], label="Predicted usage of the {} sequence".format(species), c="black", linestyle="dotted")
-                    ax1.plot(range(N), [hg19_gt[-1] for _ in range(N)], label="Real usage of the hg19 sequence", c="r")
-                    ax1.plot(range(N), [end_gt[-1] for _ in range(N)], label="Real usage of the {} sequence".format(species), c="black")
-                    ax1.set_xlabel("Sequence of hg19 {}:{}-{}".format(d["chr"], d["center"]-N//2, d["center"]+N//2))
-                    ax2.set_xlabel("Homologous sequence on {}".format(species))
-                    ax2.set_xlim(ax1.get_xlim())
-                    ax2.set_xticks(range(N+1))
-                    ax2.set_xticklabels(targetseq)
-                    ax1.set_xticks(range(N+1))
-                    ax1.set_xticklabels(hgseq)
-                    ax1.legend()
-                    plt.savefig("PICS/{}_{}_{}.png".format(species, i, d["gene"]))
-                    plt.close()'''
+            
         assert len(hg19_gt) == len(data)
 
         with open(os.path.join(SavePath, "human_{}_pred".format(species)), "w") as f:

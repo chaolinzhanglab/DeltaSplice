@@ -5,7 +5,7 @@ import torch
 from torch.utils.data import Dataset
 import json
 import os
-from config import repdict, SeqTable, IN_MAP
+from constant import repdict, SeqTable, IN_MAP
 from models.pangolin import MainModel
 from functools import partial
 import matplotlib.pyplot as plt
@@ -106,35 +106,7 @@ def main():
                 end_pred.append(pred[-1])
                 hg19_gt.append(sum(hg19_label))
                 end_gt.append(sum(end_label))
-                '''if len(pred)>2:
-                    plt.figure()
-                    plt.scatter(d["distance"], pred, label="{}/{}".format(round(sum(hg19_label), 4), round(sum(end_label), 4)))
-                    plt.scatter(d["distance"][:1], [sum(hg19_label)], c="r")
-                    plt.scatter([0], [sum(end_label)], c="r")
-                    plt.legend()
-                    plt.savefig("PICS/{}_{}.png".format(species,i))
-                    plt.close()'''
-
-        """plt.figure(figsize=[8*3, 6*1])
-        f = plt.subplot(1, 3, 1)
-        f.scatter(hg19_gt, hg19_pred, label="$R^2$={}".format(pearsonr(hg19_pred, hg19_gt)[0]))
-        f.legend()
-        f.set_xlabel("Gt of hg19")
-        f.set_ylabel("Pred of hg19")
-        f = plt.subplot(1, 3, 2)
-        f.scatter(end_gt, end_pred, label="$R^2$={}".format(pearsonr(end_pred, end_gt)[0]))
-        f.legend()
-        f.set_xlabel("Gt of {}".format(species))
-        f.set_ylabel("Pred of {}".format(species))
-        f = plt.subplot(1, 3, 3)
-        f.scatter([a-b for a, b in zip(hg19_gt, end_gt)], [a-b for a, b in zip(hg19_pred, end_pred)],
-                  label="$R^2$={}".format(pearsonr([a-b for a, b in zip(hg19_gt, end_gt)], [a-b for a, b in zip(hg19_pred, end_pred)])[0]))
-        f.legend()
-        f.set_xlabel("Real $\Delta$usage")
-        f.set_ylabel("Predicted $\Delta$usage")
-
-        plt.savefig("PICS/pangolin_human_merge_{}.png".format(species), bbox_inches="tight")
-        plt.close()"""
+          
 
         with open(os.path.join(SavePath, "pangolin_human_{}_pred".format(species)), "w") as f:
             for a, b, c, d in zip(hg19_pred, hg19_gt, end_pred, end_gt):
