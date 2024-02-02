@@ -88,8 +88,8 @@ class config:
     num_workers = 5  # number of dataloader workers
 
     # for evaluation , can be ignored in training process
-    model_path = [os.path.join("RefSplice_models/", x)
-                  for x in os.listdir("RefSplice_models/")]
+    model_path = [os.path.join("DeltaSplice_models/", x)
+                  for x in os.listdir("DeltaSplice_models/")]
     print_summary = True
     is_train = False
     save_files = True

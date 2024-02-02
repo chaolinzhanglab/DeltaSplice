@@ -2,7 +2,7 @@ from loguru import logger
 import os
 import sys
 import json
-from config import CL, AnnoPath,  EL, Fapath
+from constant import CL, AnnoPath,  EL, Fapath
 from pyfasta import Fasta
 SavePath = "data/autism_exome"
 

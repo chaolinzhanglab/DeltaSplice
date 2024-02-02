@@ -2,7 +2,7 @@ from loguru import logger
 import os
 import sys
 import json
-from config import CL, AnnoPath,  EL, Fapath
+from constant import CL, AnnoPath,  EL, Fapath
 from bisect import bisect_left
 import numpy as np
 from pyfasta import Fasta
