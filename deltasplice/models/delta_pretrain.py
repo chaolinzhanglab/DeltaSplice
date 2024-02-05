@@ -202,7 +202,7 @@ class MainModel(nn.Module):
         return {"sloss": sloss.item(),  "rloss": rloss.item(),  "r1loss": r1loss.item(), "brain_loss": brain_loss.item()}
 
     def get_eval_res(self, x1, x2=None, exp=None):
-        ret = self.encode(x1, seq=x2, exp=exp)
+        ret = self.encode(targetseq=x1, seq=x2, exp=exp)
         ret = ret.detach().cpu().numpy()
         return ret
 
