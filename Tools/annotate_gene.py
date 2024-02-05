@@ -2,7 +2,6 @@ from loguru import logger
 import os
 import numpy as np
 from deltasplice.utils import parse_bed_line
-from constant import AnnoPath, TableFile
 import json
 
 
@@ -62,6 +61,13 @@ def main():
 
 
 if __name__ == "__main__":
+    from argparse import ArgumentParser
+    parser=ArgumentParser()
+    parser.add_argument("--save_path", required=True, help="path to save output files", type=str)
+    parser.add_argument("--input_file", required=True, help="path to input file", type=str)
+    args=parser.parse_args()
+    AnnoPath=args.save_path
+    TableFile=args.input_file
     if not os.path.exists(AnnoPath):
         os.mkdir(AnnoPath)
     main()

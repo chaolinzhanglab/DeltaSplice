@@ -3,7 +3,7 @@ import numpy as np
 from pyfasta import Fasta
 import json
 from loguru import logger
-from constant import Fapath, AnnoPath, NpyPath,  CL, EL, TableFile, Train_Chromes, Valid_Chromes, Test_Chromes
+from deltasplice.constant import Fapath,  CL, EL,  Train_Chromes, Valid_Chromes, Test_Chromes
 from deltasplice.utils import parse_bed_line
 import random
 from bisect import bisect_left
@@ -66,6 +66,15 @@ def main(Data, Path):
 
 
 if __name__ == "__main__":
+    from argparse import ArgumentParser
+    parser=ArgumentParser()
+    parser.add_argument("--anno_path", required=True, help="path to annotation files", type=str)
+    parser.add_argument("--save_path", required=True, help="path to save output files", type=str)
+    parser.add_argument("--input_file", required=True, help="path to input file", type=str)
+    args=parser.parse_args()
+    AnnoPath=args.anno_path
+    TableFile=args.input_file
+    NpyPath=args.save_path
     if not os.path.exists(NpyPath):
         os.mkdir(NpyPath)
     trainpath, validpath, testpath = os.path.join(NpyPath, "train"), os.path.join(NpyPath, "valid"), os.path.join(NpyPath, "test")
