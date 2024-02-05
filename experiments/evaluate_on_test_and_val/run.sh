@@ -1,10 +1,7 @@
-rm -r experiments/evaluate_on_test_and_val/test_results
-python -m Tools.annotate_gene
-python -m Tools.generate_data
-python main.py -c experiments.evaluate_on_test_and_val.RefSplice_test_config
-python main.py -c experiments.evaluate_on_test_and_val.pangolin_test_config
-python main.py -c experiments.evaluate_on_test_and_val.RefSplice_human_test_config
+python main.py --save_path experiments/evaluate_on_test_and_val --test_data_path data/train_val_test/test/data.json  data/train_val_test/valid/data.json --load_model_path pretrained_models/DeltaSplice_models/model.ckpt-0 pretrained_models/DeltaSplice_models/model.ckpt-1 pretrained_models/DeltaSplice_models/model.ckpt-2 pretrained_models/DeltaSplice_models/model.ckpt-3 pretrained_models/DeltaSplice_models/model.ckpt-4    
+python main.py --save_path experiments/evaluate_on_test_and_val --test_data_path data/train_val_test/test/data.json  data/train_val_test/valid/data.json --load_model_path pretrained_models/DeltaSplice_human/model.ckpt-0 pretrained_models/DeltaSplice_human/model.ckpt-1 pretrained_models/DeltaSplice_human/model.ckpt-2 pretrained_models/DeltaSplice_human/model.ckpt-3 pretrained_models/DeltaSplice_human/model.ckpt-4    
 
-python baselines/spliceai_eval.py data/Npy/test/data.json  experiments/evaluate_on_test_and_val/test_results/test
-python baselines/spliceai_eval.py data/Npy/valid/data.json  experiments/evaluate_on_test_and_val/test_results/valid
+
+python experiments/baselines/spliceai_eval.py data/train_val_test/test/data.json  experiments/evaluate_on_test_and_val/test_results/test
+python experiments/baselines/spliceai_eval.py data/train_val_test/valid/data.json  experiments/evaluate_on_test_and_val/test_results/valid
 
