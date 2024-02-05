@@ -1,6 +1,6 @@
-python -m Tools.generate_mutdata data/VexSeq_snps2exon_ref_dataset.txt data/vexseq/ hg19  #File, SavePath, species =
-python -m Tools.generate_mutdata data/MFASS.bed data/mfass hg19
-python main_mut.py -c experiments/eval_mut/RefSplice_mut_config
+python -m Tools.generate_mutdata experiments/eval_mut/VexSeq_snps2exon_ref_dataset.txt data/vexseq/ hg19  #File, SavePath, species =
+python -m Tools.generate_mutdata experiments/eval_mut/MFASS.txt data/mfass hg19
+python main.py --save_path experiments/eval_mut --mut_data_path data/vexseq/data.json  data/mfass/data.json --load_model_path pretrained_models/DeltaSplice_models/model.ckpt-0 pretrained_models/DeltaSplice_models/model.ckpt-1 pretrained_models/DeltaSplice_models/model.ckpt-2 pretrained_models/DeltaSplice_models/model.ckpt-3 pretrained_models/DeltaSplice_models/model.ckpt-4   --use_reference=True
 python baselines/pangolin.py data/vexseq/data.json experiments/eval_mut/test_results/vexseq_pangolin.txt
 python baselines/pangolin.py data/mfass/data.json experiments/eval_mut/test_results/mfass_pangolin.txt
 
