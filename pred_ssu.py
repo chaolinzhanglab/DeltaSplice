@@ -1,12 +1,8 @@
 from loguru import logger
 import os
 import argparse
-import importlib
-import random
-import numpy as np
-from deltasplice.utils import MutGenerator, GetSummaryStatisticsCallback, write_splice_site_file_header, write_splice_sites, get_top1_statistics, get_correlation, collect_predictions, density_scatter
+
 import torch
-from torch.utils.data import DataLoader
 import copy
 import pandas as pd
 from deltasplice.constant import default_model_paths, model, Fapath, EL, SeqTable, repdict, IN_MAP
