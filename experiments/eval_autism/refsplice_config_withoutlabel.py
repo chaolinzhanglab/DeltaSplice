@@ -1,8 +1,8 @@
 import torch
-from models.model_utils import (
+from deltasplice.models.model_utils import (
     get_available_gpus,
 )
-from models.delta_pretrain import MainModel
+from deltasplice.models.delta_pretrain import MainModel
 from functools import partial
 import os
 L = 64
