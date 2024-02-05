@@ -17,7 +17,7 @@ Download genome reference and liftOver files from UCSC.
 ### Generate train/test/valid data from gene annotation file
 
 - `gene_dataset.tsu.txt` contains splice site usage in the adult brains of eight mammalian species.
-- Change the custom path in constant.py if necessary
+- Change the custom path in `constant.py` if necessary
 - Run
 >>>
     #Generate gene annotations on the genome
