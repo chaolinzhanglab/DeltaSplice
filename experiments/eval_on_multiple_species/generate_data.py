@@ -4,7 +4,7 @@ from loguru import logger
 import json
 import os
 from pyfasta import Fasta
-from constant import Fapath
+from deltasplice.constant import Fapath
 
 TABLE_FILE = "data/gene_dataset.tsu.txt"
 AnnoPath = "data/annotation/"
