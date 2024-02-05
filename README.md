@@ -91,8 +91,9 @@ In each folder, `run.sh` contains all the command lines. Directly run `bash run.
 
 ### Citation
 
+>>>
 Xu, C., Bao, S., Chen, H., Jiang, T., Zhang, C. Reference-informed prediction of alternative splicing and splicing-altering mutations from sequences. in submission.
-
+>>>
 
 
 
