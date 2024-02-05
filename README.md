@@ -79,5 +79,5 @@ In each folder, run.sh contains all the command lines. Directly run "bash run.sh
 >>>
     python main_mut.py -c /the/path/to/mut_config
     # example
-    # python main_mut.py -c experiments/2_eval_mut/RefSplice_mut_config
+    # python main_mut.py -c experiments/eval_mut/RefSplice_mut_config
 >>>
