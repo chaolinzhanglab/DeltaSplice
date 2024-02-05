@@ -46,15 +46,7 @@ def main(File, species, SavePath):
 
     padsize = (EL+CL)//2
     numNonexp, NumTotal = 0, 0
-    with open(os.path.join(AnnoPath, "data.json"), "r") as f:
-        Annotation = json.load(f)
-    SortedKeys = {}
-    for sp in Annotation:
-        SortedKeys[sp] = {}
-        for chr in Annotation[sp]:
-            SortedKeys[sp][chr] = {}
-            SortedKeys[sp][chr]["+"] = sorted([int(_) for _ in Annotation[sp][chr]["+"].keys()])
-            SortedKeys[sp][chr]["-"] = sorted([int(_) for _ in Annotation[sp][chr]["-"].keys()])
+    
     SaveData = []
     SaveData_vitro = []
     for idx, line in enumerate(mutinfo):
@@ -68,20 +60,9 @@ def main(File, species, SavePath):
         d = {"species": species, "chrom": Chr, "start": start, "end": end, "strand": Strand, "mutpos": Pos-start, "oriv": Ori, "mutv": Mut, "label": [], "mutlabel": [], "name": Name}
         d_vitro = {"species": species, "chrom": Chr, "start": start, "end": end, "strand": Strand, "mutpos": Pos-start, "oriv": Ori, "mutv": Mut, "label": [], "mutlabel": [], "name": Name}
 
-        startidx, endidx = bisect_left(SortedKeys[species][Chr][Strand], Js), bisect_left(SortedKeys[species][Chr][Strand], Je)
-        try:
-            assert startidx < len(SortedKeys[species][Chr][Strand]) and Js == SortedKeys[species][Chr][Strand][startidx]
-            assert endidx < len(SortedKeys[species][Chr][Strand]) and Je == SortedKeys[species][Chr][Strand][endidx]
-        except:
-            logger.warning("The junction site not exists in annotation file")
+       
 
         if Strand == "+":
-            try:
-                assert float(Annotation[species][Chr]["+"][str(Js)][2]) > 0 or np.isnan(float(Annotation[species][Chr]["+"][str(Js)][2]))
-                assert float(Annotation[species][Chr]["+"][str(Je)][1]) > 0 or np.isnan(float(Annotation[species][Chr]["+"][str(Je)][1]))
-            except:
-                numNonexp += 1
-                logger.info("Encounter nonexpression sites of {}/{}, will not pass ...".format(numNonexp, NumTotal))
             d["label"].append([Js-start, [0, 0, Psi]])
             d["label"].append([Je-start, [0, Psi, 0]])
             d["mutlabel"].append([Js-start, [0, 0, deltaPsi]])
@@ -93,13 +74,6 @@ def main(File, species, SavePath):
             d_vitro["mutlabel"].append([Je-start, [0, deltaPsi_vitro, 0]])
         else:
             assert Strand == "-"
-            # print(Annotation[species][Chr]["-"][str(Je)])
-            try:
-                assert float(Annotation[species][Chr]["-"][str(Js)][1]) > 0 or np.isnan(float(Annotation[species][Chr]["-"][str(Js)][1]))
-                assert float(Annotation[species][Chr]["-"][str(Je)][2]) > 0 or np.isnan(float(Annotation[species][Chr]["-"][str(Je)][2]))
-            except:
-                numNonexp += 1
-                logger.info("Encounter nonexpression sites of {}/{}, will not pass ...".format(numNonexp, NumTotal))
             d["label"].append([Js-start, [0, Psi, 0]])
             d["label"].append([Je-start, [0, 0, Psi]])
             d["mutlabel"].append([Js-start, [0, deltaPsi, 0]])
