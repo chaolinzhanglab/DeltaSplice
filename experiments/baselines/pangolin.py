@@ -10,11 +10,11 @@ IN_MAP = np.asarray([[0, 0, 0, 0],
                      [0, 0, 1, 0],
                      [0, 0, 0, 1]])
 
-Fapath = "hgfile"
+Fapath = "fafiles"
 repdict = {"A": "T", "T": "A", "C": "G", "G": "C", "N": "N", '-': '-'}
 context = 10000
 model_nums = [0, 2, 4, 6]
-modelpath = "baselines/pangolin_models"
+modelpath = "experiments/baselines/pangolin_models"
 INDEX_MAP = {0: 1, 1: 2, 2: 4, 3: 5, 4: 7, 5: 8, 6: 10, 7: 11}
 Table = {"A": 1, "C": 2, "G": 3, "T": 4, "N": 0}
 

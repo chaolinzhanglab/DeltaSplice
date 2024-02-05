@@ -86,7 +86,7 @@ class MutGenerator():
 
 
 paths = ('spliceai{}.h5'.format(x) for x in range(1, 6))
-models = [load_model(os.path.join('baselines/spliceai_models', x))
+models = [load_model(os.path.join('experiments/baselines/spliceai_models', x))
           for x in paths]
 dataset = MutGenerator(context, sys.argv[1])
 print("the size of dataset is {} model size is {}".format(

@@ -138,7 +138,7 @@ class MutGenerator():
 
 
 paths = ('spliceai{}.h5'.format(x) for x in range(1, 6))
-models = [load_model(os.path.join('baselines/spliceai_models', x))
+models = [load_model(os.path.join('experiments/baselines/spliceai_models', x))
           for x in paths]
 logger.info("finish loading model")
 

@@ -8,7 +8,7 @@ import numpy as np
 import pandas
 import json
 from pyfasta import Fasta
-Modelpath = "baselines/MMSplice_paper/data/vexseq/scale_model.pkl"
+Modelpath = "experiments/baselines/MMSplice_paper/data/vexseq/scale_model.pkl"
 repdict = {"A": "T", "T": "A", "C": "G", "G": "C", "N": "N", '-': '-'}
 # example files
 vcf, fasta, csv = sys.argv[1:4]
