@@ -78,6 +78,7 @@ def main():
             DataGenerator = MutGenerator
             data_path=args.mut_data_path
             func=eval_mut_data
+            batch_size=1
         else:
             from deltasplice.utils import DataGenerator
             data_path=args.test_data_path

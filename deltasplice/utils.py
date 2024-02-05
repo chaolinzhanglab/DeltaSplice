@@ -107,7 +107,7 @@ class DataGenerator(Dataset):
         self.EL = EL
 
     def __len__(self):
-        return 24#len(self.data)
+        return len(self.data)
 
     def __getitem__(self, index):
         d = self.data[index]

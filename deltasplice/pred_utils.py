@@ -82,6 +82,6 @@ def eval_mut_data(data, models, save_path, use_ref):
         Pred_ref.append(pred_ref)
    
     with open(save_path, "w") as f:
-        f.writelines("Pred_delta\tGt_delta\tPred_ref\n")
+        f.writelines("Pred_ref\tPred_delta\tGt_delta\n")
         for a, b, c in zip(Pred_delta, Gt_delta, Pred_ref):
             f.writelines("{}\t{}\t{}\n".format(c, a, b))
