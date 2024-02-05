@@ -10,7 +10,7 @@ from scipy.interpolate import interpn
 from torch.utils.data import Dataset
 import torch
 import json
-from constant import Fapath, IN_MAP, repdict, SeqTable
+from deltasplice.constant import Fapath, IN_MAP, repdict, SeqTable
 from pyfasta import Fasta
 
 
@@ -107,7 +107,7 @@ class DataGenerator(Dataset):
         self.EL = EL
 
     def __len__(self):
-        return len(self.data)
+        return 24#len(self.data)
 
     def __getitem__(self, index):
         d = self.data[index]
