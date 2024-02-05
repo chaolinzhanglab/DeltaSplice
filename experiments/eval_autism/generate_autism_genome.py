@@ -2,7 +2,7 @@ from loguru import logger
 import os
 import sys
 import json
-from constant import CL, AnnoPath,  EL, Fapath
+from deltasplice.constant import CL,   EL, Fapath
 from pyfasta import Fasta
 SavePath = "data/autism_genome"
 
