@@ -2,7 +2,7 @@ from loguru import logger
 import os
 import sys
 import json
-from constant import CL, AnnoPath,  EL, Fapath
+from deltasplice.constant import CL, EL, Fapath
 from bisect import bisect_left
 import numpy as np
 from pyfasta import Fasta
