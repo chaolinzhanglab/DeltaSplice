@@ -1,16 +1,16 @@
-# DeltaSplice
+## DeltaSplice
 Code for the paper "Reference-informed prediction of alternative splicing and splicing-altering mutations from sequences". 
 
-## Data preparation
+### Data preparation
 
-Download genome reference and liftOver files from UCSC
+Download genome reference and liftOver files from UCSC.
 >>>
     bash Tools/download_files.sh
 >>>
 
-## Generate train/test/valid data from gene annotation file
+### Generate train/test/valid data from gene annotation file
 
-1. 'gene_dataset.tsu.txt' contains splice site usage in the adult brains of eight mammalian species.
+1. `gene_dataset.tsu.txt` contains splice site usage in the adult brains of eight mammalian species.
 2. Change the custom path in constant.py if necessary
 3. Run
 >>>
@@ -21,9 +21,9 @@ Download genome reference and liftOver files from UCSC
     python -m Tools.generate_data
 >>>
 
-## Run model training/evaluation
+### Run model training/evaluation
 
-1. Please refer to configs under tasks/ for the format of config/test_config/mut_config file
+1. Please refer to configs under `tasks/` for the format of `config/test_config/mut_config` file
 2. Run
 >>>
     # train a model: 
@@ -34,7 +34,7 @@ Download genome reference and liftOver files from UCSC
 >>>
 
 
-## Reproduce experiments described in the manuscript
+### Reproduce experiments described in the manuscript
 
 Pre-trained models for baseline methods:
 
@@ -62,20 +62,22 @@ Pre-trained models for baseline methods:
 >>>
 
 
-All experiments mentioned in the manuscript can be reproduced with the scripts under the experiments/ folder.
+All experiments mentioned in the manuscript can be reproduced with the scripts under the `experiments/` folder.
 
-In each folder, run.sh contains all the command lines. Directly run "bash run.sh" can generate all the results.
+In each folder, `run.sh` contains all the command lines. Directly run `bash run.sh` can generate all the results.
 
-## Quick start with pretrained model
-1. Please refer to VexSeq_snps2exon_ref_dataset.txt for the format of input data.
-2. Write the config file following experiments/2_eval_mut/RefSplice_mut_config.py.
-3. Generate file with:
+### Quick start with pretrained model
+- Please refer to VexSeq_snps2exon_ref_dataset.txt for the format of input data.
+- Write the config file following experiments/2_eval_mut/RefSplice_mut_config.py.
+- Generate file with:
+
 >>>
     python -m Tools.generate_mutdata /path/to/data /path/to/save reference genome
     # example
     # python -m Tools.generate_mutdata data/VexSeq_snps2exon_ref_dataset.txt data/vexseq/ hg19 
 >>>
-4. Run the valuation with:
+
+- Run the valuation with:
 >>>
     python main_mut.py -c /the/path/to/mut_config
     # example
