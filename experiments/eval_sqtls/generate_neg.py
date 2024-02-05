@@ -118,7 +118,7 @@ def main(File, species, SavePath):
 
 if __name__ == "__main__":
     import sys
-    File = "data/k1g_sqtls.txt"
+    File = "experiments/eval_sqtls/k1g_sqtls.txt"
     if not os.path.exists(SavePath):
         os.mkdir(SavePath)
     hg38tohg19=LiftOver("data/Chains/hg38ToHg19.over.chain")
