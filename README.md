@@ -1,5 +1,10 @@
-## DeltaSplice - A neural network model to predict splice site usage and splicing-altering mutations
+## DeltaSplice 
 
+A neural network model to predict splice site usage and splicing-altering mutations
+
+Citation:
+
+Xu, C., Bao, S., Chen, H., Jiang, T., Zhang, C. "Reference-informed prediction of alternative splicing and splicing-altering mutations from sequences." *In submission*.
 
 ### Installation
 
@@ -88,10 +93,5 @@ In each folder, `run.sh` contains all the command lines. Directly run `bash run.
     # example
     # python main_mut.py -c experiments/eval_mut/RefSplice_mut_config
 >>>
-
-### Citation
-
-Xu, C., Bao, S., Chen, H., Jiang, T., Zhang, C. "Reference-informed prediction of alternative splicing and splicing-altering mutations from sequences." *In submission*.
-
 
 
