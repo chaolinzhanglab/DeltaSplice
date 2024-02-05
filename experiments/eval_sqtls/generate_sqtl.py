@@ -121,7 +121,7 @@ def main(File, species, SavePath):
 
 if __name__ == "__main__":
     import sys
-    File = "data/Brain_tissues.v8.sqtl_signifpairs_map_cass_intron.dist.200bp_dataset.corrected.txt"
+    File = "data/brain_sqtls.txt"
     if not os.path.exists(SavePath):
         os.mkdir(SavePath)
     hg38tohg19=LiftOver("data/Chains/hg38ToHg19.over.chain")

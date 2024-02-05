@@ -1,8 +1,8 @@
 import torch
-from models.model_utils import (
+from deltasplice.models.model_utils import (
     get_available_gpus,
 )
-from models.delta_pretrain import MainModel
+from deltasplice.models.delta_pretrain import MainModel
 from functools import partial
 import os
 L = 64
@@ -64,7 +64,7 @@ withcons = False
 optimizer = partial(torch.optim.Adam, lr=1e-3)
 model = MainModel(L, W, AR, 0.3, EL=EL, optimizer=optimizer)
 
-path = "experiments/5_eval_autism"
+path = "experiments/eval_autism"
 
 
 class config:
@@ -88,8 +88,8 @@ class config:
     num_workers = 5  # number of dataloader workers
 
     # for evaluation , can be ignored in training process
-    model_path = [os.path.join("DeltaSplice_models/", x)
-                  for x in os.listdir("DeltaSplice_models/")]
+    model_path = [os.path.join("pretrained_models/DeltaSplice_models/", x)
+                  for x in os.listdir("pretrained_models/DeltaSplice_models/")]
     print_summary = True
     is_train = False
     save_files = True

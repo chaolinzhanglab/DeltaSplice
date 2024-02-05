@@ -6,7 +6,7 @@ wget https://hgdownload.cse.ucsc.edu/goldenpath/${name}/bigZips/${name}.fa.gz
 done
 gzip -d *.gz
 cd ..
-
+cp -r fafiles py36hgfile
 mkdir data/Chains
 cd data/Chains
 for name in hg19ToBosTau9.over.chain hg19ToMm10.over.chain hg19ToPanTro5.over.chain  hg19ToRheMac10.over.chain hg19ToRn6.over.chain hg19ToSusScr11.over.chain

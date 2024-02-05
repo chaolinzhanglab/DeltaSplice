@@ -1,8 +1,8 @@
 import torch
-from models.model_utils import (
+from deltasplice.models.model_utils import (
     get_available_gpus,
 )
-from models.pangolin import MainModel
+from deltasplice.models.pangolin import MainModel
 from functools import partial
 import os
 L = 32
@@ -17,7 +17,7 @@ withcons = False
 optimizer = partial(torch.optim.Adam, lr=1e-3)
 model = MainModel(L, W, AR, 0.3, EL=EL, optimizer=optimizer)
 
-path = "experiments/1_evaluate_on_test_and_val/"
+path = "experiments/evaluate_on_test_and_val/"
 
 
 class config:
@@ -40,8 +40,8 @@ class config:
     num_workers = 5  # number of dataloader workers
 
     # for evaluation , can be ignored in training process
-    model_path = [os.path.join("pangolin_human_models/", x)
-                  for x in os.listdir("pangolin_human_models/")]
+    model_path = [os.path.join("pretrained_models/pangolin_human_models/", x)
+                  for x in os.listdir("pretrained_models/pangolin_human_models/")]
     print_summary = True
     is_train = False
     save_files = True

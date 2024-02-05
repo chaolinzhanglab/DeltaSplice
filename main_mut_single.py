@@ -5,7 +5,7 @@ import importlib
 import random
 import numpy as np
 import torch
-from utils import (
+from deltasplice.utils import (
     MutGenerator,
     density_scatter
 )

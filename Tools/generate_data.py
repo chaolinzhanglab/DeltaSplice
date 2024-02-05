@@ -4,7 +4,7 @@ from pyfasta import Fasta
 import json
 from loguru import logger
 from constant import Fapath, AnnoPath, NpyPath,  CL, EL, TableFile, Train_Chromes, Valid_Chromes, Test_Chromes
-from utils import parse_bed_line
+from deltasplice.utils import parse_bed_line
 import random
 from bisect import bisect_left
 

@@ -6,7 +6,7 @@ from torch.utils.data import Dataset
 import json
 import os
 from constant import repdict, SeqTable, IN_MAP
-from models.delta_pretrain import MainModel
+from deltasplice.models.delta_pretrain import MainModel
 from functools import partial
 import matplotlib.pyplot as plt
 import matplotlib as mpl

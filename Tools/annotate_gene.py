@@ -1,7 +1,7 @@
 from loguru import logger
 import os
 import numpy as np
-from utils import parse_bed_line
+from deltasplice.utils import parse_bed_line
 from constant import AnnoPath, TableFile
 import json
 

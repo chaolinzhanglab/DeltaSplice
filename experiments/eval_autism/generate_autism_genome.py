@@ -109,7 +109,7 @@ def main(File, species, SavePath):
 
 if __name__ == "__main__":
     import sys
-    File = "data/All.denovo.snps_plusCell2020_genic.snps_genome_snps2trio_byEST_nonredundant_dataset.txt"
+    File = "data/snps_genome_autism.txt"
     annotation_file="data/annotation/data.json"
     with open(annotation_file, "r") as f:
         annotation=json.load(f)["hg19"]

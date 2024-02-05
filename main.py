@@ -4,10 +4,11 @@ import argparse
 import importlib
 import random
 import numpy as np
-from utils import MutGenerator, GetSummaryStatisticsCallback, write_splice_site_file_header, write_splice_sites, get_top1_statistics, get_correlation, collect_predictions, density_scatter
+from deltasplice.utils import MutGenerator, GetSummaryStatisticsCallback, write_splice_site_file_header, write_splice_sites, get_top1_statistics, get_correlation, collect_predictions, density_scatter
 import torch
 from torch.utils.data import DataLoader
 import copy
+from deltasplice.utils import DataGenerator
 
 
 def main():
@@ -27,7 +28,7 @@ def main():
     np.random.seed(1+config.seed)
     torch.random.manual_seed(1+config.seed)
     print("finish set env")
-    from utils import DataGenerator
+    
 
     if config.is_train:
         # prepare model
@@ -67,7 +68,7 @@ def main():
             config.testjsonfile = config.mut_data
             DataGenerator = MutGenerator
         else:
-            from utils import DataGenerator
+            from deltasplice.utils import DataGenerator
         if not isinstance(config.testjsonfile, list):
             config.testjsonfile = [config.testjsonfile]
         if not isinstance(config.model_path, list):
