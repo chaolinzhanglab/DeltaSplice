@@ -10,9 +10,9 @@ Download genome reference and liftOver files from UCSC.
 
 ### Generate train/test/valid data from gene annotation file
 
-1. `gene_dataset.tsu.txt` contains splice site usage in the adult brains of eight mammalian species.
-2. Change the custom path in constant.py if necessary
-3. Run
+- `gene_dataset.tsu.txt` contains splice site usage in the adult brains of eight mammalian species.
+- Change the custom path in constant.py if necessary
+- Run
 >>>
     #Generate gene annotations on the genome
     python -m Tools.annotate_gene
@@ -23,8 +23,8 @@ Download genome reference and liftOver files from UCSC.
 
 ### Run model training/evaluation
 
-1. Please refer to configs under `tasks/` for the format of `config/test_config/mut_config` file
-2. Run
+- Please refer to configs under `tasks/` for the format of `config/test_config/mut_config` file
+- Run
 >>>
     # train a model: 
     python main.py -c tasks/DeltaSplice_rep0/config
@@ -38,7 +38,7 @@ Download genome reference and liftOver files from UCSC.
 
 Pre-trained models for baseline methods:
 
-1. SpliceAI
+- SpliceAI
 >>>
     cd baselines
     git clone https://github.com/Illumina/SpliceAI.git
@@ -46,7 +46,7 @@ Pre-trained models for baseline methods:
     cd ..
 >>>
 
-2. pangolin
+- pangolin
 >>>
     cd baselines
     git clone https://github.com/tkzeng/Pangolin.git
@@ -54,7 +54,7 @@ Pre-trained models for baseline methods:
     cd ..
 >>>
 
-3. MMSplice 
+- MMSplice 
 >>>
     cd baselines
     git clone https://github.com/gagneurlab/MMSplice_paper.git
