@@ -1,5 +1,4 @@
-## DeltaSplice
-Code for the paper "Reference-informed prediction of alternative splicing and splicing-altering mutations from sequences". 
+## DeltaSplice - A neural network model to predict splice site usage and splicing-altering mutations
 
 
 ### Installation
