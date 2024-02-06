@@ -2,3 +2,4 @@
 fafiles/
 *test_results/
 *.log
+*log

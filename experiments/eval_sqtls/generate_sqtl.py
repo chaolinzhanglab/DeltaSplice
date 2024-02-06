@@ -125,7 +125,7 @@ if __name__ == "__main__":
     if not os.path.exists(SavePath):
         os.mkdir(SavePath)
     hg38tohg19=LiftOver("data/Chains/hg38ToHg19.over.chain")
-    annotation_file="data/annotation/data.json"
+    annotation_file="data/anno/data.json"
     with open(annotation_file, "r") as f:
         annotation=json.load(f)["hg19"]
 

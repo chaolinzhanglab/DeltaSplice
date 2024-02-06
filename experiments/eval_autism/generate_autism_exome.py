@@ -106,8 +106,8 @@ def main(File, species, SavePath):
 
 if __name__ == "__main__":
     import sys
-    File = "data/snps_exome_autism.txt"
-    annotation_file="data/annotation/data.json"
+    File = "experiments/eval_autism/snps_exome_autism.txt"
+    annotation_file="data/anno/data.json"
     with open(annotation_file, "r") as f:
         annotation=json.load(f)["hg19"]
     if not os.path.exists(SavePath):

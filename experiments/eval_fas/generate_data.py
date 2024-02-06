@@ -58,7 +58,7 @@ def main(File, species, SavePath):
 
 if __name__ == "__main__":
     import sys
-    File = "data/fas.csv"
+    File = "experiments/eval_fas/fas.csv"
     Chr = "chr10"
     exon_start = 90770509
     exon_end = 90770572
