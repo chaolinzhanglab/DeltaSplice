@@ -7,7 +7,7 @@ from pyfasta import Fasta
 from deltasplice.constant import Fapath
 
 TABLE_FILE = "data/gene_dataset.tsu.txt"
-AnnoPath = "data/annotation/"
+AnnoPath = "data/anno/"
 SavePath = "data/Hg19VsOthers"
 hg19fa = Fasta(Fapath+"/hg19.fa")
 repdict = {"A": "T", "T": "A", "C": "G", "G": "C", "N": "N", '-': '-'}
