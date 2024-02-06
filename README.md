@@ -93,32 +93,6 @@ To evaluate the performance of a model to predict delta-ssu
 
 ### Reproduce experiments described in the manuscript
 
-Pre-trained models for baseline methods:
-
-- SpliceAI
->>>
-    cd experiments/baselines
-    git clone https://github.com/Illumina/SpliceAI.git
-    mv SpliceAI/spliceai/models spliceai_models
-    cd ../..
->>>
-
-- pangolin
->>>
-    cd experiments/baselines
-    git clone https://github.com/tkzeng/Pangolin.git
-    mv Pangolin/pangolin/models/ pangolin_models
-    cd ../..
->>>
-
-- MMSplice 
->>>
-    cd experiments/baselines
-    git clone https://github.com/gagneurlab/MMSplice_paper.git
-    cd ../..
->>>
-
-
 All experiments mentioned in the manuscript can be reproduced with the scripts under the `experiments/` folder.
 
 In each folder, `run.sh` contains all the command lines. Directly run `bash run.sh` can generate all the results.
