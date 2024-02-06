@@ -19,8 +19,10 @@ plt.rc("font", size=18)
 
 
 DataPath = "data/Hg19VsOthers/"
-SavePath = "experiments/0_eval_on_multiple_species/test_results"
-ModelPrefix = "DeltaSplice_models"
+SavePath = "experiments/eval_on_multiple_species/test_results"
+if not os.path.exists(SavePath):
+    os.mkdir(SavePath)
+ModelPrefix = "pretrained_models/DeltaSplice_models"
 ModelPath = [os.path.join(ModelPrefix, x) for x in os.listdir(ModelPrefix)]
 Species = ["susScr11", "mm10", "rheMac10", "rn6", "panTro5", "bosTau9"]
 revseqtable = ["A", "C", "G", "T"]
