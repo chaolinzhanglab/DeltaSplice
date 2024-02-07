@@ -26,34 +26,60 @@ Xu, C., Bao, S., Chen, H., Jiang, T., Zhang, C. "Reference-informed prediction o
 
 ## Data preparation
 
-Download genome reference and liftOver files from UCSC.
+Download genome reference and liftOver files from UCSC and save them to `fafiles` and `data/Chains`, respectively.
+
+<span style="color:red">CZ note: why not put them together in a folder 'genomes'?</span>
+
+
 >>>
     bash Tools/download_files.sh
 >>>
 
 ## Quick start with pretrained model
-Currently DeltaSplice support the prediction of ssu for splice sites and delta-ssu for mutations. Example data are provided under data/.
-- For the prediction of ssu for splice sites, the input file should be in the csv format with chrom, zero-based position and strand, as follows,
+Currently DeltaSplice support the prediction of ssu for splice sites and delta-ssu for mutations. Example data are provided under `data/`.
+
+### SSU prediction
+
+For the prediction of ssu for splice sites, the input file should be in the csv format with chrom, zero-based position and strand, as follows,
 
     | chrom   | position | strand |
     |---------|----------|--------|
     | chr1    | 151003847| +      |
     | chr1    | 176015316| -      |
 
+#### Usage:
 
-  Run following code to generate prediction results, in which the reference genome is used to extract input sequences.
+Run following code to generate prediction results, in which the reference genome is used to extract input sequences.
+
 >>>
-    python pred_ssu.py --data_path /path/to/data --save_path /path/to/save --genome reference_genome
-    # example
-    # python pred_ssu.py --data_path data/example_pred_ssu.csv --save_path temp.csv --genome hg19 
+    python pred_ssu.py --data_path /path/to/input.csv --save_path /path/to/output.csv --genome reference_genome
 >>>
 
-- For the prediction of delta-ssu for mutations, the input file should be in csv format and contain the following columns, in which if there's no psi information, set psi as Nan. Note that all positions should be zero-based. Here psi means psi of the reference allele, and ref/alt are bases on the positive strand.
+Required parameters:
+
+<span style="color:red">TODO: add some description of input and output files </span>
+ - ```--data_path```: Input CSV file with coordinates of sites to be predicted.  Note that 5' splice site is represented by the upstream nucleotide (i.e., junction start) while 3' splice site is represented by the downstream nucleotide (i.e., junction end). 
+ - ```--save_path```: Output CSV file with prediction results.  [description of the output format]
+ - ```--genome```   : description 
+
+#### Example:
+
+>>>
+    python pred_ssu.py --data_path data/example_pred_ssu.csv --save_path temp.csv --genome hg19 
+>>>
+
+<span style="color:red">how do we specify the genome directory? full path or just the name? </span>
+
+
+### Delta-SSU prediction
+
+For the prediction of delta-ssu for mutations, the input file should be in csv format and contain the following columns, in which if there's no psi information, set psi as Nan. Note that all positions should be zero-based. Here psi means psi of the reference allele, and ref/alt are bases on the positive strand.
     | chrom   | mut_position | ref | alt | strand | exon_end | exon_start | psi  |
     |---------|--------------|-----|-----|--------|----------|--------|------|
     | chr1    | 114161115    | G   | A   | +      | 114161227| 114161153| 0.4888  |
     | chr1    | 119584866    | G   | C   | -      | 119584971|119584886| 0.8859 |
 
+<span style="color:red">can we switch the order of exon_start and exon_end? </span>
 
 
   Run following code to generate prediction results
