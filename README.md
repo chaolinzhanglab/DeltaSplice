@@ -56,7 +56,10 @@ Currently DeltaSplice support the prediction of ssu for splice sites and delta-s
     # python pred_deltassu.py --data_path data/example_pred_deltassu.csv  --save_path temp.csv --genome hg19 
 >>>
 
-### Generate train/test/valid data from gene annotation file
+
+### Retrain the model using gene annotations
+
+#### Prepare train/test/valid data from gene annotation file
 
 - `gene_dataset.tsu.txt` contains splice site usage in the adult brains of eight mammalian species.
 - Run
@@ -68,7 +71,7 @@ Currently DeltaSplice support the prediction of ssu for splice sites and delta-s
     python -m Tools.generate_data --save_path data/train_val_test --anno_path data/anno --input_file data/gene_dataset.tsu.txt
 >>>
 
-### Run model training/evaluation
+#### Run model training/evaluation
 The script for model training is experiments/model_train/run.sh. In detail, to train a model:
 >>>
     # train a model: 
