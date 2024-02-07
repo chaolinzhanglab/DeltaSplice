@@ -28,7 +28,7 @@ Xu, C., Bao, S., Chen, H., Jiang, T., Zhang, C. "Reference-informed prediction o
 
 Download genome reference and liftOver files from UCSC and save them to `fafiles` and `data/Chains`, respectively.
 
-<span style="color:red;">CZ note: why not put them together in a folder 'genomes'?</span>
+**CZ note: why not put them together in a folder 'genomes'?**
 
 
 >>>
@@ -57,7 +57,7 @@ Run following code to generate prediction results, in which the reference genome
 
 Required parameters:
 
-<span style="color:red">TODO: add some description of input and output files </span>
+**TODO: add some description of input and output files**
  - ```--data_path```: Input CSV file with coordinates of sites to be predicted.  Note that 5' splice site is represented by the upstream nucleotide (i.e., junction start) while 3' splice site is represented by the downstream nucleotide (i.e., junction end). 
  - ```--save_path```: Output CSV file with prediction results.  [description of the output format]
  - ```--genome```   : description 
@@ -68,7 +68,7 @@ Required parameters:
     python pred_ssu.py --data_path data/example_pred_ssu.csv --save_path temp.csv --genome hg19 
 >>>
 
-<span style="color:red">how do we specify the genome directory? full path or just the name? </span>
+**CZ note: how do we specify the genome directory? full path or just the name?**
 
 
 ### Delta-SSU prediction
@@ -79,7 +79,8 @@ For the prediction of delta-ssu for mutations, the input file should be in csv f
     | chr1    | 114161115    | G   | A   | +      | 114161227| 114161153| 0.4888  |
     | chr1    | 119584866    | G   | C   | -      | 119584971|119584886| 0.8859 |
 
-<span style="color:red">can we switch the order of exon_start and exon_end? </span>
+
+**CZ note: can we switch the order of exon_start and exon_end?**
 
 
   Run following code to generate prediction results
