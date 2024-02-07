@@ -57,7 +57,7 @@ Run following code to generate prediction results, in which the reference genome
 
 Required parameters:
 
-**TODO: add some description of input and output files**
+**CZ note: TODO: add some description of input and output files**
  - ```--data_path```: Input CSV file with coordinates of sites to be predicted.  Note that 5' splice site is represented by the upstream nucleotide (i.e., junction start) while 3' splice site is represented by the downstream nucleotide (i.e., junction end). 
  - ```--save_path```: Output CSV file with prediction results.  [description of the output format]
  - ```--genome```   : description 
@@ -74,6 +74,7 @@ Required parameters:
 ### Delta-SSU prediction
 
 For the prediction of delta-ssu for mutations, the input file should be in csv format and contain the following columns, in which if there's no psi information, set psi as Nan. Note that all positions should be zero-based. Here psi means psi of the reference allele, and ref/alt are bases on the positive strand.
+
     | chrom   | mut_position | ref | alt | strand | exon_end | exon_start | psi  |
     |---------|--------------|-----|-----|--------|----------|--------|------|
     | chr1    | 114161115    | G   | A   | +      | 114161227| 114161153| 0.4888  |
