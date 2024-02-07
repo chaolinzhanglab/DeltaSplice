@@ -2,3 +2,4 @@ loguru
 argparse
 matplotlib
 scikit-learn
+pandas
