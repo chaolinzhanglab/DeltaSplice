@@ -20,11 +20,12 @@ def main():
     input_file=pd.read_csv(args.data_path)
     reference_genome=Fasta(os.path.join(Fapath, args.genome+".fa"))
     save_file=open(args.save_path, "w")
-    save_file.writelines("chrom,mut_position,strand,jn_start,jn_end,psi,pred_ref,pred_deltassu\n")
-    for chrom, mut_pos,ref,alt, strand,jn_start, jn_end, psi in zip(input_file["chrom"], input_file["mut_position"],input_file["ref"], input_file["alt"], input_file["strand"], input_file["jn_start"], input_file["jn_end"], input_file["psi"]):
+    save_file.writelines("chrom,mut_position,strand,exon_end,exon_start,psi,pred_ref,pred_deltassu\n")
+    for chrom, mut_pos,ref,alt, strand,jn_start, jn_end, psi in zip(input_file["chrom"], input_file["mut_position"],input_file["ref"], input_file["alt"], input_file["strand"], input_file["exon_end"], input_file["exon_start"], input_file["psi"]):
         pos=(jn_start+jn_end)//2        
         seq_start=pos-(EL+CL)//2
         seq_end=seq_start+EL+CL
+        psi=max(psi, 1e-3)
         
         seq=reference_genome[chrom][max(seq_start, 0):min(seq_end, len(reference_genome[chrom]))].upper()
         

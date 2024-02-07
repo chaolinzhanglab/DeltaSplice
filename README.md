@@ -22,38 +22,35 @@ Download genome reference and liftOver files from UCSC.
 >>>
 
 ### Quick start with pretrained model
-Currently DeltaSplice support the prediction of ssu for splice sites and delta-ssu for mutations
+Currently DeltaSplice support the prediction of ssu for splice sites and delta-ssu for mutations. Example data are provided under data/.
 - For the prediction of ssu for splice sites, the input file should be in the csv format with chrom, zero-based position and strand, as follows,
 
     | chrom   | position | strand |
     |---------|----------|--------|
-    | chr1    | 100      | +      |
-    | chr2    | 250      | -      |
-    | chr3    | 500      | +      |
-    | chr4    | 750      | -      |
+    | chr1    | 151003847| +      |
+    | chr1    | 176015316| -      |
 
 
-  Run following code to generate prediction results
+  Run following code to generate prediction results, in which the reference genome is used to extract input sequences.
 >>>
     python pred_ssu.py --data_path /path/to/data --save_path /path/to/save --genome reference_genome
     # example
     # python pred_ssu.py --data_path data/example_pred_ssu.csv --save_path temp.csv --genome hg19 
 >>>
 
-- For the prediction of delta-ssu for mutations, the input file should be in csv format and contain the following columns, in which if there's no psi information, set psi as Nan. Note that all positions should be zero-based.
-    | chrom   | mut_position | ref | alt | strand | jn_start | jn_end | psi  |
+- For the prediction of delta-ssu for mutations, the input file should be in csv format and contain the following columns, in which if there's no psi information, set psi as Nan. Note that all positions should be zero-based. Here psi means psi of the reference allele, and ref/alt are bases on the positive strand.
+    | chrom   | mut_position | ref | alt | strand | exon_end | exon_start | psi  |
     |---------|--------------|-----|-----|--------|----------|--------|------|
-    | chr1    | 100          | A   | T   | +      | 50       | 150    | 0.8  |
-    | chr2    | 250          | C   | G   | -      | 200      | 300    | 0.5  |
-    | chr3    | 500          | G   | A   | +      | 450      | 550    | 0.6  |
-    | chr4    | 750          | T   | C   | -      | 700      | 800    | 0.9  |
+    | chr1    | 114161115    | G   | A   | +      | 114161227| 114161153| 0.4888  |
+    | chr1    | 119584866    | G   | C   | -      | 119584971|119584886| 0.8859 |
+
 
 
   Run following code to generate prediction results
 >>>
     python pred_deltassu.py --data_path /path/to/data --save_path /path/to/save --genome reference_genome
-    # example
-    # python pred_deltassu.py --data_path data/example_pred_deltassu.csv  --save_path temp.csv --genome hg19 
+    # example to predict deltassu for vexseq
+    # python pred_deltassu.py --data_path data/vexseq.csv  --save_path temp.csv --genome hg19 
 >>>
 
 
@@ -93,13 +90,6 @@ To evaluate the performance of a model to predict delta-ssu
     # example
     python main.py --save_path experiments/eval_mut --mut_data_path data/vexseq/data.json  data/mfass/data.json --load_model_path pretrained_models/DeltaSplice_models/model.ckpt-0 pretrained_models/DeltaSplice_models/model.ckpt-1 pretrained_models/DeltaSplice_models/model.ckpt-2 pretrained_models/DeltaSplice_models/model.ckpt-3 pretrained_models/DeltaSplice_models/model.ckpt-4   --use_reference=True
 >>>
-
-### Reproduce experiments described in the manuscript
-
-All experiments mentioned in the manuscript can be reproduced with the scripts under the `experiments/` folder.
-
-In each folder, `run.sh` contains all the command lines. Directly run `bash run.sh` can generate all the results.
-
 
 
 
