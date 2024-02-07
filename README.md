@@ -1,4 +1,4 @@
-## DeltaSplice 
+# DeltaSplice 
 
 A neural network model to predict splice site usage and splicing-altering mutations
 
@@ -6,7 +6,7 @@ Citation:
 
 Xu, C., Bao, S., Chen, H., Jiang, T., Zhang, C. "Reference-informed prediction of alternative splicing and splicing-altering mutations from sequences." *In submission*.
 
-### Installation
+## Installation
 [Anaconda](https://www.anaconda.com/download)  is recommended for installation. 
 >>>
     git clone https://github.com/chaolinzhanglab/DeltaSplice.git
@@ -24,14 +24,14 @@ Xu, C., Bao, S., Chen, H., Jiang, T., Zhang, C. "Reference-informed prediction o
 >>>
 
 
-### Data preparation
+## Data preparation
 
 Download genome reference and liftOver files from UCSC.
 >>>
     bash Tools/download_files.sh
 >>>
 
-### Quick start with pretrained model
+## Quick start with pretrained model
 Currently DeltaSplice support the prediction of ssu for splice sites and delta-ssu for mutations. Example data are provided under data/.
 - For the prediction of ssu for splice sites, the input file should be in the csv format with chrom, zero-based position and strand, as follows,
 
@@ -64,9 +64,9 @@ Currently DeltaSplice support the prediction of ssu for splice sites and delta-s
 >>>
 
 
-### Retrain the model using gene annotations
+## Retrain the model using gene annotations
 
-#### Prepare train/test/valid data from gene annotation file
+### Prepare train/test/valid data from gene annotation file
 
 - `gene_dataset.tsu.txt` contains splice site usage in the adult brains of eight mammalian species.
 - Run
@@ -78,7 +78,7 @@ Currently DeltaSplice support the prediction of ssu for splice sites and delta-s
     python -m Tools.generate_data --save_path data/train_val_test --anno_path data/anno --input_file data/gene_dataset.tsu.txt
 >>>
 
-#### Run model training/evaluation
+### Run model training/evaluation
 The script for model training is experiments/model_train/run.sh. In detail, to train a model:
 >>>
     # train a model: 
@@ -93,7 +93,8 @@ To evaluate the performance of a model to predict ssu:
     python main.py --save_path experiments/evaluate_on_test_and_val --test_data_path data/train_val_test/test/data.json  data/train_val_test/test/human.json --load_model_path pretrained_models/DeltaSplice_models/model.ckpt-0 pretrained_models/DeltaSplice_models/model.ckpt-1 pretrained_models/DeltaSplice_models/model.ckpt-2 pretrained_models/DeltaSplice_models/model.ckpt-3 pretrained_models/DeltaSplice_models/model.ckpt-4    
 >>>
 
-To evaluate the performance of a model to predict delta-ssu
+
+##Example to evaluate the performance of a model to predict delta-ssu
 
 >>>
     # test a model: 
