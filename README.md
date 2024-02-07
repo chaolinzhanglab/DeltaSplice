@@ -26,9 +26,7 @@ Xu, C., Bao, S., Chen, H., Jiang, T., Zhang, C. "Reference-informed prediction o
 
 ## Data preparation
 
-Download genome reference and liftOver files from UCSC and save them to `fafiles` and `data/Chains`, respectively.
-
-**CZ note: why not put them together in a folder 'genomes'? or data/genomes**
+Download genome reference and liftOver files from UCSC and save them to `data/genomes`.
 
 
 >>>
@@ -58,10 +56,9 @@ Run following code to generate prediction results, in which the reference genome
 
 Required parameters:
 
-**CZ note: TODO: add some description of input and output files**
- - ```--data_path```: Input CSV file with coordinates of sites to be predicted.  Note that 5' splice site is represented by the upstream nucleotide (i.e., junction start) while 3' splice site is represented by the downstream nucleotide (i.e., junction end). 
- - ```--save_path```: Output CSV file with prediction results.  [description of the output format]
- - ```--genome```   : description 
+ - ```--data_path```: Input CSV file with coordinates and strands of sites to be predicted, as mentioned before.
+ - ```--save_path```: Output CSV file with prediction results. The output file contains five columns, i.e. chrom, position, strand,acceptor_ssu and donor_ssu, where acceptor_ssu and donor_ssu are predicted SSUs for each site when it is used as acceptor or donor, respectively. Sites with SSU predicted values lower than 1e-3 are not considered as splicing sites.
+ - ```--genome```   : Which reference genome to use, for example, hg19, hg38 or other reference genomes. Note that the default path for reference genome is `data/genomes`.
 
 #### Example:
 
@@ -69,21 +66,14 @@ Required parameters:
     python pred_ssu.py --data_path data/example_pred_ssu.csv --save_path temp.csv --genome hg19 
 >>>
 
-**CZ note: how do we specify the genome directory? full path or just the name?**
-
-
 ### Delta-SSU prediction
 
 For the prediction of delta-ssu for mutations, the input file should be in csv format and contain the following columns, in which if there's no psi information, set psi as Nan. Note that all positions should be zero-based. Here psi means psi of the reference allele, and ref/alt are bases on the positive strand.
 
-    | chrom   | mut_position | ref | alt | strand | exon_end | exon_start | psi  |
+    | chrom   | mut_position | ref | alt | strand | exon_start | exon_end | psi  |
     |---------|--------------|-----|-----|--------|----------|--------|------|
-    | chr1    | 114161115    | G   | A   | +      | 114161227| 114161153| 0.4888  |
-    | chr1    | 119584866    | G   | C   | -      | 119584971|119584886| 0.8859 |
-
-
-**CZ note: usage and more description as above; Also, can we switch the order of exon_start and exon_end?**
-
+    | chr1    | 114161115    | G   | A   | +      |114161153 | 114161227| 0.4888  |
+    | chr1    | 119584866    | G   | C   | -      |119584886 |119584971| 0.8859 |
 
   Run following code to generate prediction results
 >>>
@@ -92,6 +82,11 @@ For the prediction of delta-ssu for mutations, the input file should be in csv f
     # python pred_deltassu.py --data_path data/vexseq.csv  --save_path temp.csv --genome hg19 
 >>>
 
+Required parameters:
+
+ - ```--data_path```: Input CSV file with coordinates, ref/alt bases, strands and exon positions, as mentioned before.
+ - ```--save_path```: Output CSV file with prediction results. The output file contains eight columns, i.e. chrom, mut_position, strand, exon_start, exon_end, psi, pred_ref, pred_deltassu, where pred_ref is the predicted SSU for the sequence before mutation, and pred_deltassu is the predicted deltaSSU for current mutation.
+ - ```--genome```   : Which reference genome to use, for example, hg19, hg38 or other reference genomes. The default path for reference genome is `data/genomes`.
 
 ## Retrain the model using gene annotations
 

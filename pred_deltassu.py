@@ -20,7 +20,7 @@ def main():
     input_file=pd.read_csv(args.data_path)
     reference_genome=Fasta(os.path.join(Fapath, args.genome+".fa"))
     save_file=open(args.save_path, "w")
-    save_file.writelines("chrom,mut_position,strand,exon_end,exon_start,psi,pred_ref,pred_deltassu\n")
+    save_file.writelines("chrom,mut_position,strand,exon_start,exon_end,psi,pred_ref,pred_deltassu\n")
     for chrom, mut_pos,ref,alt, strand,jn_start, jn_end, psi in zip(input_file["chrom"], input_file["mut_position"],input_file["ref"], input_file["alt"], input_file["strand"], input_file["exon_end"], input_file["exon_start"], input_file["psi"]):
         pos=(jn_start+jn_end)//2        
         seq_start=pos-(EL+CL)//2
@@ -66,7 +66,7 @@ def main():
         position=np.nonzero(refmat[:, 1:].reshape(-1))
         pred_ref=(pred_ref[:, :, 1:].reshape(-1)[position]).mean()
         pred_delta=(pred_delta[:, :, 1:].reshape(-1)[position]).mean()
-        save_file.writelines(f"{chrom},{mut_pos},{ref},{alt},{strand},{jn_start},{jn_end},{psi},{pred_ref},{pred_delta}\n")
+        save_file.writelines(f"{chrom},{mut_pos},{ref},{alt},{strand},{jn_end},{jn_start},{psi},{pred_ref},{pred_delta}\n")
     save_file.close()
             
         

@@ -21,7 +21,7 @@ def main():
     input_file=pd.read_csv(args.data_path)
     reference_genome=Fasta(os.path.join(Fapath, args.genome+".fa"))
     save_file=open(args.save_path, "w")
-    save_file.writelines("chrom,position,strand,accptor_ssu,donor_ssu\n")
+    save_file.writelines("chrom,position,strand,acceptor_ssu,donor_ssu\n")
     for chrom, pos, strand in zip(input_file["chrom"], input_file["position"], input_file["strand"]):
         seq_start=pos-EL//2
         seq_end=seq_start+EL+1

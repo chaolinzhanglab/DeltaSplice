@@ -11,7 +11,7 @@ BASESET = set(["A", "C", "G", "T"])
 IN_MAP = np.eye(6)[:, 1:]
 CL = 5000
 EL = 30000
-Fapath="fafiles/"
+Fapath="data/genomes/"
 Train_Chromes = [
     "chr15",
     "chr17",
