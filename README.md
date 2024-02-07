@@ -43,7 +43,7 @@ Currently DeltaSplice support the prediction of ssu for splice sites and delta-s
 For the prediction of ssu for splice sites, the input file should be in the csv format with chrom, zero-based position and strand, as follows,
 
     | chrom   | position | strand |
-    |:--------|:---------|:-------|
+    |---------|----------|--------|
     | chr1    | 151003847| +      |
     | chr1    | 176015316| -      |
 
