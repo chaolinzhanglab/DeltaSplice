@@ -28,7 +28,7 @@ Xu, C., Bao, S., Chen, H., Jiang, T., Zhang, C. "Reference-informed prediction o
 
 Download genome reference and liftOver files from UCSC and save them to `fafiles` and `data/Chains`, respectively.
 
-<span style="color:red">CZ note: why not put them together in a folder 'genomes'?</span>
+<span style="color:red;">CZ note: why not put them together in a folder 'genomes'?</span>
 
 
 >>>
