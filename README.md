@@ -28,7 +28,7 @@ Xu, C., Bao, S., Chen, H., Jiang, T., Zhang, C. "Reference-informed prediction o
 
 Download genome reference and liftOver files from UCSC and save them to `fafiles` and `data/Chains`, respectively.
 
-**CZ note: why not put them together in a folder 'genomes'?**
+**CZ note: why not put them together in a folder 'genomes'? or data/genomes**
 
 
 >>>
@@ -81,7 +81,7 @@ For the prediction of delta-ssu for mutations, the input file should be in csv f
     | chr1    | 119584866    | G   | C   | -      | 119584971|119584886| 0.8859 |
 
 
-**CZ note: can we switch the order of exon_start and exon_end?**
+**CZ note: usage and more description as above; Also, can we switch the order of exon_start and exon_end?**
 
 
   Run following code to generate prediction results
