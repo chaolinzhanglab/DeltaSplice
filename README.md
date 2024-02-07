@@ -7,10 +7,20 @@ Citation:
 Xu, C., Bao, S., Chen, H., Jiang, T., Zhang, C. "Reference-informed prediction of alternative splicing and splicing-altering mutations from sequences." *In submission*.
 
 ### Installation
-
+[Anaconda](https://www.anaconda.com/download)  is recommended for installation. 
 >>>
     git clone https://github.com/chaolinzhanglab/DeltaSplice.git
     cd DeltaSplice
+
+    # init conda environment 
+    conda create -n deltasplice python=3.9 bioconda::pyfasta
+    conda activate deltasplice
+
+    # install torch
+    pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
+
+    # install dependents
+    pip install -r requirements.txt
 >>>
 
 
