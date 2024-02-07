@@ -1,2 +1,0 @@
-python -m experiments.eval_fas.generate_data
-python main.py --save_path experiments/eval_fas --mut_data_path data/FAS/data.json  --load_model_path pretrained_models/DeltaSplice_models/model.ckpt-0 pretrained_models/DeltaSplice_models/model.ckpt-1 pretrained_models/DeltaSplice_models/model.ckpt-2 pretrained_models/DeltaSplice_models/model.ckpt-3 pretrained_models/DeltaSplice_models/model.ckpt-4   --use_reference=True
