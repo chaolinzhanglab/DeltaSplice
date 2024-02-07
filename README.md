@@ -94,7 +94,7 @@ To evaluate the performance of a model to predict ssu:
 >>>
 
 
-##Example to evaluate the performance of a model to predict delta-ssu
+## Example to evaluate the performance of a model to predict delta-ssu
 
 >>>
     # test a model: 
