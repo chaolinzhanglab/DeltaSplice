@@ -34,7 +34,7 @@ Download genome reference and liftOver files from UCSC and save them to `data/ge
 >>>
 
 ## Quick start with pretrained model
-Currently DeltaSplice support the prediction of ssu for splice sites and delta-ssu for mutations. Example data are provided under `data/`.
+Currently DeltaSplice support the prediction of ssu for splice sites and delta-ssu for mutations. Example data are provided under `data/` and pretrained models are under `pretrained_models`.
 
 ### SSU prediction
 
@@ -92,11 +92,11 @@ Required parameters:
 >>>
 
 ## Retrain the model using gene annotations
-
+We provided data and scripts for users to train the model from scratch, and evaluate the performance of the obtained model. 
 ### Prepare train/test/valid data from gene annotation file
 
 - `gene_dataset.tsu.txt` contains splice site usage in the adult brains of eight mammalian species.
-- Run
+- Run the following code to generate necessary data for model training and evaluation.
 >>>
     #Generate gene annotations on the genome
     python -m Tools.annotate_gene --save_path data/anno/ --input_file data/gene_dataset.tsu.txt
@@ -106,31 +106,29 @@ Required parameters:
 >>>
 
 ### Run model training/evaluation
-The script for model training is experiments/model_train/run.sh. In detail, to train a model:
+- The script to reproduce model training is experiments/model_train/run.sh. An example command line to train a model is as follows,
 >>>
-    # train a model: 
     # example
     python main.py --save_path experiments/model_train/DeltaSplice_rep0/ --is_train=True --train_data_path=data/train_val_test/train/data.json --valid_data_path=data/train_val_test/valid/data.json --seed=321
 >>>
+where 
 
-To evaluate the performance of a model to predict ssu:
+ - ```--save_path```: The path to save the generated files in the training process.
+ - ```--is_train```: Set the state as training mode.
+ - ```--train_data_path```: The path to training data, which is prepared in the former section.
+ - ```--valid_data_path```: The path to validation data.
+- ```--seed```: The random seed.
+
+An example command line to evaluate the performance of the trained models to predict SSU is as follows,
 >>>
-    # test a model: 
     # example
     python main.py --save_path experiments/evaluate_on_test_and_val --test_data_path data/train_val_test/test/data.json  data/train_val_test/test/human.json --load_model_path pretrained_models/DeltaSplice_models/model.ckpt-0 pretrained_models/DeltaSplice_models/model.ckpt-1 pretrained_models/DeltaSplice_models/model.ckpt-2 pretrained_models/DeltaSplice_models/model.ckpt-3 pretrained_models/DeltaSplice_models/model.ckpt-4    
 >>>
+Similarly, where 
 
+ - ```--save_path```: The path to save the generated files in the training process.
+ - ```--is_train```: Set the state as evaluation mode.
+ - ```--test_data_path```: One or more paths to the testing data.
+ - ```--load_model_path```: One or more paths to load saved model.
 
-## Example to evaluate the performance of a model to predict delta-ssu
-
->>>
-    # test a model: 
-    # example
-    
-    python -m Tools.generate_mutdata experiments/eval_mut/VexSeq_snps2exon_ref_dataset.txt data/vexseq/ hg19 # make data for vexseq
-
-    python main.py --save_path experiments/eval_mut --mut_data_path data/vexseq/data.json  data/mfass/data.json --load_model_path pretrained_models/DeltaSplice_models/model.ckpt-0 pretrained_models/DeltaSplice_models/model.ckpt-1 pretrained_models/DeltaSplice_models/model.ckpt-2 pretrained_models/DeltaSplice_models/model.ckpt-3 pretrained_models/DeltaSplice_models/model.ckpt-4   --use_reference=True
->>>
-
-
-
+ All scripts to reproduce experiments mentioned in our paper are under `experiments/`.
