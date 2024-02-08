@@ -108,7 +108,7 @@ We provided data and scripts for users to train the model from scratch, and eval
 >>>
 
 ### Run model training/evaluation
-- The script to reproduce model training is experiments/model_train/run.sh. An example command line to train a model is as follows,
+The script to reproduce model training is experiments/model_train/run.sh. An example command line to train a model is as follows,
 >>>
     # example
     python main.py --save_path experiments/model_train/DeltaSplice_rep0/ --is_train=True --train_data_path=data/train_val_test/train/data.json --valid_data_path=data/train_val_test/valid/data.json --seed=321
