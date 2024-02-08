@@ -34,11 +34,11 @@ Download genome reference and liftOver files from UCSC and save them to `data/ge
 >>>
 
 ## Quick start with pretrained model
-Currently DeltaSplice support the prediction of ssu for splice sites and delta-ssu for mutations. Example data are provided under `data/` and pretrained models are under `pretrained_models`. The file `deltasplice/constant.py` contains the default path to pretrained models and reference genomes.
+Currently DeltaSplice support the prediction of SSU and delta-SSU for mutations. Example data are provided under `data/` and pretrained models are under `pretrained_models`. The file `deltasplice/constant.py` contains the default path to pretrained models and reference genomes.
 
 ### SSU prediction
 
-For the prediction of SSU for splice sites, the input file should be in the csv format with chrom, zero-based position and strand, as follows,
+For the prediction of SSU, the input file should be in the csv format with chrom, zero-based position and strand, as follows,
 
     | chrom   | position | strand |
     |---------|----------|--------|
@@ -68,7 +68,7 @@ Required parameters:
 
 ### Delta-SSU prediction
 
-For the prediction of delta-ssu for mutations, the input file should be in csv format and contain the following columns, in which if there's no psi information, set psi as Nan. Note that all positions should be zero-based. Here psi means psi of the reference allele, and ref/alt are bases on the positive strand.
+For the prediction of delta-SSU for mutations, the input file should be in csv format and contain the following columns, in which if there's no psi information, set psi as Nan. Note that all positions should be zero-based. Here psi means psi of the reference allele, and ref/alt are bases on the positive strand.
 
     | chrom   | mut_position | ref | alt | strand | exon_start | exon_end | psi   |
     |---------|--------------|-----|-----|--------|------------|----------|-------|
@@ -85,7 +85,7 @@ For the prediction of delta-ssu for mutations, the input file should be in csv f
 Required parameters:
 
  - ```--data_path```: Input CSV file with coordinates, ref/alt bases, strands and exon positions, as mentioned before.
- - ```--save_path```: Output CSV file with prediction results. The output file contains eight columns, i.e. chrom, mut_position, strand, exon_start, exon_end, psi, pred_ref, pred_deltassu, where pred_ref is the predicted SSU for the sequence before mutation, and pred_deltassu is the predicted deltaSSU for current mutation.
+ - ```--save_path```: Output CSV file with prediction results. The output file contains eight columns, i.e. chrom, mut_position, strand, exon_start, exon_end, psi, pred_ref, pred_deltassu, where pred_ref is the predicted SSU for the sequence before mutation, and pred_deltassu is the predicted delta-SSU for current mutation.
  - ```--genome```   : Which reference genome to use, for example, hg19, hg38 or other reference genomes. The default path for reference genome is `data/genomes`.
 #### Example:
 
@@ -95,8 +95,8 @@ Required parameters:
 
 ## Train models from scratch
 We provided data and scripts for users to train the model from scratch, and evaluate the performance of the obtained model. 
-### Prepare train/test/valid data from gene annotation file
 
+### Prepare train/test/valid data from gene annotation file
 - `gene_dataset.tsu.txt` contains splice site usage in the adult brains of eight mammalian species.
 - Run the following code to generate necessary data for model training and evaluation.
 >>>
