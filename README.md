@@ -78,8 +78,6 @@ For the prediction of delta-ssu for mutations, the input file should be in csv f
   Run following code to generate prediction results
 >>>
     python pred_deltassu.py --data_path /path/to/data --save_path /path/to/save --genome reference_genome
-    # example to predict deltassu for vexseq
-    # python pred_deltassu.py --data_path data/vexseq.csv  --save_path temp.csv --genome hg19 
 >>>
 
 Required parameters:
@@ -87,6 +85,11 @@ Required parameters:
  - ```--data_path```: Input CSV file with coordinates, ref/alt bases, strands and exon positions, as mentioned before.
  - ```--save_path```: Output CSV file with prediction results. The output file contains eight columns, i.e. chrom, mut_position, strand, exon_start, exon_end, psi, pred_ref, pred_deltassu, where pred_ref is the predicted SSU for the sequence before mutation, and pred_deltassu is the predicted deltaSSU for current mutation.
  - ```--genome```   : Which reference genome to use, for example, hg19, hg38 or other reference genomes. The default path for reference genome is `data/genomes`.
+#### Example:
+
+>>>
+    python pred_deltassu.py --data_path data/vexseq.csv  --save_path temp.csv --genome hg19 
+>>>
 
 ## Retrain the model using gene annotations
 
