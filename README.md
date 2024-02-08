@@ -34,7 +34,7 @@ Download genome reference and liftOver files from UCSC and save them to `data/ge
 >>>
 
 ## Quick start with pretrained model
-Currently DeltaSplice support the prediction of ssu for splice sites and delta-ssu for mutations. Example data are provided under `data/` and pretrained models are under `pretrained_models`.
+Currently DeltaSplice support the prediction of ssu for splice sites and delta-ssu for mutations. Example data are provided under `data/` and pretrained models are under `pretrained_models`. The file `deltasplice/constant.py` contains the default path to pretrained models and reference genomes.
 
 ### SSU prediction
 
