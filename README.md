@@ -91,7 +91,7 @@ Required parameters:
     python pred_deltassu.py --data_path data/vexseq.csv  --save_path temp.csv --genome hg19 
 >>>
 
-## Retrain the model using gene annotations
+## Train models from scratch
 We provided data and scripts for users to train the model from scratch, and evaluate the performance of the obtained model. 
 ### Prepare train/test/valid data from gene annotation file
 
