@@ -128,7 +128,7 @@ An example command line to evaluate the performance of the trained models to pre
 >>>
 Similarly, where 
 
- - ```--save_path```: The path to save the generated files in the training process.
+ - ```--save_path```: The path to save the generated files in the testing process.
  - ```--is_train```: Set the state as evaluation mode.
  - ```--test_data_path```: One or more paths to the testing data.
  - ```--load_model_path```: One or more paths to load saved model.
