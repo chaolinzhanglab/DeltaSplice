@@ -63,7 +63,7 @@ Required parameters:
 #### Example:
 
 >>>
-    python pred_ssu.py --data_path data/example_pred_ssu.csv --save_path temp.csv --genome hg19 
+    python pred_ssu.py --data_path data/example_pred_ssu.csv --save_path data/example_ssu_pred_out.csv --genome hg19 
 >>>
 
 ### Delta-SSU prediction
@@ -90,7 +90,7 @@ Required parameters:
 #### Example:
 
 >>>
-    python pred_deltassu.py --data_path data/vexseq.csv  --save_path temp.csv --genome hg19 
+    python pred_deltassu.py --data_path data/vexseq.csv  --save_path data/vexseq_out.csv --genome hg19 
 >>>
 
 ## Train models from scratch
