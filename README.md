@@ -110,10 +110,17 @@ We provided data and scripts for users to train the model from scratch, and eval
 ### Run model training/evaluation
 The script to reproduce model training is experiments/model_train/run.sh, which will train 5 models with different random seeds with the same data. You can run it directly by `bash experiments/model_train/run.sh`. 
 
-An example python command line to train a model is as follows,
+The python command lines to train models are as follows,
 >>>
-    # example
     python main.py --save_path experiments/model_train/DeltaSplice_rep0/ --is_train=True --train_data_path=data/train_val_test/train/data.json --valid_data_path=data/train_val_test/valid/data.json --seed=321
+
+    python main.py --save_path experiments/model_train/DeltaSplice_rep1/ --is_train=True --train_data_path=data/train_val_test/train/data.json --valid_data_path=data/train_val_test/valid/data.json --seed=49
+
+    python main.py --save_path experiments/model_train/DeltaSplice_rep2/ --is_train=True --train_data_path=data/train_val_test/train/data.json --valid_data_path=data/train_val_test/valid/data.json --seed=976
+
+    python main.py --save_path experiments/model_train/DeltaSplice_rep3/ --is_train=True --train_data_path=data/train_val_test/train/data.json --valid_data_path=data/train_val_test/valid/data.json --seed=753
+
+    python main.py --save_path experiments/model_train/DeltaSplice_rep4/ --is_train=True --train_data_path=data/train_val_test/train/data.json --valid_data_path=data/train_val_test/valid/data.json --seed=491
 >>>
 where 
 
