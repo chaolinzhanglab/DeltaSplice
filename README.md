@@ -75,6 +75,8 @@ For the prediction of delta-ssu for mutations, the input file should be in csv f
     | chr1    | 114161115    | G   | A   | +      | 114161153  |114161227 | 0.4888|
     | chr1    | 119584866    | G   | C   | -      | 119584886  |119584971 | 0.8859|
 
+#### Usage:
+
   Run following code to generate prediction results
 >>>
     python pred_deltassu.py --data_path /path/to/data --save_path /path/to/save --genome reference_genome
