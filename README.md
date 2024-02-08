@@ -70,10 +70,10 @@ Required parameters:
 
 For the prediction of delta-ssu for mutations, the input file should be in csv format and contain the following columns, in which if there's no psi information, set psi as Nan. Note that all positions should be zero-based. Here psi means psi of the reference allele, and ref/alt are bases on the positive strand.
 
-    | chrom   | mut_position | ref | alt | strand | exon_start | exon_end | psi  |
-    |---------|--------------|-----|-----|--------|----------|--------|------|
-    | chr1    | 114161115    | G   | A   | +      |114161153 | 114161227| 0.4888  |
-    | chr1    | 119584866    | G   | C   | -      |119584886 |119584971| 0.8859 |
+    | chrom   | mut_position | ref | alt | strand | exon_start | exon_end | psi   |
+    |---------|--------------|-----|-----|--------|------------|----------|-------|
+    | chr1    | 114161115    | G   | A   | +      | 114161153  |114161227 | 0.4888|
+    | chr1    | 119584866    | G   | C   | -      | 119584886  |119584971 | 0.8859|
 
   Run following code to generate prediction results
 >>>
