@@ -45,6 +45,7 @@ For the prediction of SSU, the input file should be in the csv format with chrom
     | chr1    | 151003847| +      |
     | chr1    | 176015316| -      |
 
+Note that 5' splice site is represented by the upstream nucleotide (junction start) and 3' splice site is represented by the downstream nucleotide (junction end).
 
 #### Usage:
 
