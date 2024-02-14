@@ -1,4 +1,4 @@
-chrom,mut_position,ref,alt,strand,exon_end,exon_start,psi
+chrom,mut_position,ref,alt,strand,exon_end,exon_start,ssu
 chr1,114161115,C,A,+,114161227,114161153,0.488849335
 chr1,114161129,T,C,+,114161227,114161153,0.488849335
 chr1,114161146,C,T,+,114161227,114161153,0.488849335

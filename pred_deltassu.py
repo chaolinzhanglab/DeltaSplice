@@ -20,12 +20,12 @@ def main():
     input_file=pd.read_csv(args.data_path)
     reference_genome=Fasta(os.path.join(Fapath, args.genome+".fa"))
     save_file=open(args.save_path, "w")
-    save_file.writelines("chrom,mut_position,strand,exon_start,exon_end,psi,pred_ref,pred_deltassu\n")
-    for chrom, mut_pos,ref,alt, strand,jn_start, jn_end, psi in zip(input_file["chrom"], input_file["mut_position"],input_file["ref"], input_file["alt"], input_file["strand"], input_file["exon_end"], input_file["exon_start"], input_file["psi"]):
+    save_file.writelines("chrom,mut_position,strand,exon_start,exon_end,ssu,pred_ref,pred_deltassu\n")
+    for chrom, mut_pos,ref,alt, strand,jn_start, jn_end, ssu in zip(input_file["chrom"], input_file["mut_position"],input_file["ref"], input_file["alt"], input_file["strand"], input_file["exon_end"], input_file["exon_start"], input_file["ssu"]):
         pos=(jn_start+jn_end)//2        
         seq_start=pos-(EL+CL)//2
         seq_end=seq_start+EL+CL
-        psi=max(psi, 1e-3)
+        ssu=max(ssu, 1e-3)
         
         seq=reference_genome[chrom][max(seq_start, 0):min(seq_end, len(reference_genome[chrom]))].upper()
         
@@ -39,12 +39,12 @@ def main():
         if strand=="-":
             seq=[repdict[_] for _ in seq][::-1]
             mutseq=[repdict[_] for _ in mutseq][::-1]
-            refmat[jn_end-seq_start, 2]=psi
-            refmat[jn_start-seq_start, 1]=psi
+            refmat[jn_end-seq_start, 2]=ssu
+            refmat[jn_start-seq_start, 1]=ssu
             refmat=refmat[::-1]
         else:
-            refmat[jn_start-seq_start, 2]=psi
-            refmat[jn_end-seq_start, 1]=psi
+            refmat[jn_start-seq_start, 2]=ssu
+            refmat[jn_end-seq_start, 1]=ssu
             
             
         seq=IN_MAP[[SeqTable[_] for _ in seq]][:, :4]
@@ -66,7 +66,7 @@ def main():
         position=np.nonzero(refmat[:, 1:].reshape(-1))
         pred_ref=(pred_ref[:, :, 1:].reshape(-1)[position]).mean()
         pred_delta=(pred_delta[:, :, 1:].reshape(-1)[position]).mean()
-        save_file.writelines(f"{chrom},{mut_pos},{ref},{alt},{strand},{jn_end},{jn_start},{psi},{pred_ref},{pred_delta}\n")
+        save_file.writelines(f"{chrom},{mut_pos},{ref},{alt},{strand},{jn_end},{jn_start},{ssu},{pred_ref},{pred_delta}\n")
     save_file.close()
             
         
