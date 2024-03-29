@@ -36,6 +36,25 @@ Download genome reference and liftOver files from UCSC and save them to `data/ge
 ## Quick start with pretrained model
 Currently DeltaSplice support the prediction of SSU and delta-SSU for mutations. Example data are provided under `data/` and pretrained models are under `pretrained_models`. The file `deltasplice/constant.py` contains the default path to pretrained models and reference genomes. The average prediction of five models under `pretrained_models/DeltaSplice_models/` is used as the final prediction for SSU and delta-SSU.
 
+The details of all DeltaSplice INFO field are as follows:
+
+    |           ID           |                        Description                        |
+    |------------------------|-----------------------------------------------------------|
+    |         chrom          | id of chromosome                                          |
+    |        position        | zero-based coordinates                                    |
+    |         strand         | strand                                                    |
+    |      acceptor_ssu      | predicted SSU (acceptor)                                  |
+    |       donor_ssu        | predicted SSU (donor)                                     |
+    |      mut_position      | zero-based coordinates of mutation sites                  |
+    |        pred_ref        | predicted SSU for the reference allele when exon is given |
+    |  pred_ref_acceptor_ssu | predicted SSU for the reference allele (acceptor)         |
+    |   pred_ref_donor_ssu   | predicted SSU for the reference allele (donor)            |
+    |     pred_deltassu      | predicted delta-SSU for mutations when exon is given      |
+    | pred_acceptor_deltassu | predicted delta-SSU for mutations (acceptor)              |
+    |   pred_donor_deltassu  | predicted delta-SSU for mutations (donor)                 |
+
+It is worth noting that when predicting SSU, we given predicted acceptor SSU and donor SSU for all sites. However, the predicted score holds significance only when it exceeds 1e-3. When predicting delta-SSU values for mutations, if specific exons are provided, DeltaSplice exclusively predicts the delta-SSU for these exons. In cases where exons are not specified, DeltaSplice predicts the delta-SSU values for both acceptors and donors.
+
 ### SSU prediction
 
 For the prediction of SSU, the input file should be in the csv format with chrom, zero-based position and strand, as follows,
@@ -45,31 +64,56 @@ For the prediction of SSU, the input file should be in the csv format with chrom
     | chr1    | 151003847| +      |
     | chr1    | 176015316| -      |
 
-Note that 5' splice site is represented by the upstream nucleotide (junction start) and 3' splice site is represented by the downstream nucleotide (junction end).
-
 #### Usage:
 
 Run following code to generate prediction results, in which the reference genome is used to extract input sequences.
 
 >>>
-    python pred_ssu.py --data_path /path/to/input.csv --save_path /path/to/output.csv --genome reference_genome
+    python pred_ssu.py --data_path /path/to/input.csv --save_path /path/to/output.csv --window_size 200 --genome reference_genome
 >>>
 
 Required parameters:
 
  - ```--data_path```: Input CSV file with coordinates and strands of sites to be predicted. Please refer to `data/example_pred_ssu.csv`.
  - ```--save_path```: Output CSV file with prediction results. The output file contains five columns, i.e. chrom, position, strand,acceptor_ssu and donor_ssu, where acceptor_ssu and donor_ssu are predicted SSUs for each site when it is used as acceptor or donor, respectively. Sites with SSU predicted values lower than 1e-3 are not considered as splicing sites.
+ - ```--window_size```: Predicted window size around mutation sites, the default value is 200.
  - ```--genome```   : Which reference genome to use, for example, hg19, hg38 or other reference genomes. Note that the default path for reference genome is `data/genomes`.
 
 #### Example:
 
 >>>
-    python pred_ssu.py --data_path data/example_pred_ssu.csv --save_path data/example_ssu_pred_out.csv --genome hg19 
+    python pred_ssu.py --data_path data/example_pred_ssu.csv --save_path data/example_ssu_pred_out.csv --window_size=200 --genome hg19 
 >>>
 
-### Delta-SSU prediction
+### Delta-SSU prediction without exon and SSU information
+For the prediciton of delta-SSU for mutations without given exon and SSU information, the input file should be in csv format and contain chrom, mut_position, ref, alt and strand columns, as shown in the following table. The mut_position should be zero-based, and ref/alt are bases on the positive strand.
 
-For the prediction of delta-SSU for mutations, the input file should be in csv format and contain the following columns, in which if there's no SSU information, set SSU as Nan. Note that all positions should be zero-based. Here ssu means SSU of the reference allele, and ref/alt are bases on the positive strand.
+    | chrom   | mut_position | ref | alt | strand |
+    |---------|--------------|-----|-----|--------|
+    | chr1    | 114161115    | G   | A   | +      |
+    | chr1    | 119584866    | G   | C   | -      |
+
+#### prediction of delta-SSU for mutations without given exon and SSU information:
+
+  Run following code to generate prediction results
+>>>
+    python pred_deltassu.py --data_path /path/to/data --save_path /path/to/save --genome reference_genome
+>>>
+
+Required parameters:
+
+ - ```--data_path```: Input CSV file with coordinates, ref/alt bases, strands and exon positions. Please refer to `data/vexseq_out.csv`.
+ - ```--save_path```: Output CSV file with prediction results. The output file contains eight columns, i.e. chrom, mut_position, strand, exon_start, exon_end, ssu, pred_ref, pred_deltassu, where pred_ref is the predicted SSU for the sequence before mutation, and pred_deltassu is the predicted delta-SSU for current mutation.
+ - ```--genome```   : Which reference genome to use, for example, hg19, hg38 or other reference genomes. The default path for reference genome is `data/genomes`.
+#### Example:
+
+>>>
+    python pred_deltassu.py --data_path data/vexseq_wo_exon.csv  --save_path data/vexseq_woexon_out.csv --genome hg19 
+>>>
+
+
+
+For the prediction of delta-SSU for mutations with given exons and given SSU information, the input file should be in csv format and contain the following columns, in which if there's no SSU information, set SSU as Nan. Note that all positions should be zero-based. Here ssu means SSU of the reference allele, and ref/alt are bases on the positive strand.
 
     | chrom   | mut_position | ref | alt | strand | exon_start | exon_end | ssu   |
     |---------|--------------|-----|-----|--------|------------|----------|-------|
@@ -77,7 +121,7 @@ For the prediction of delta-SSU for mutations, the input file should be in csv f
     | chr1    | 119584866    | G   | C   | -      | 119584886  |119584971 | 0.8859|
 
 #### Usage:
-
+Note that 5' splice site is represented by the upstream nucleotide (junction start) and 3' splice site is represented by the downstream nucleotide (junction end).
   Run following code to generate prediction results
 >>>
     python pred_deltassu.py --data_path /path/to/data --save_path /path/to/save --genome reference_genome

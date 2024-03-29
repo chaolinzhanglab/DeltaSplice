@@ -4,6 +4,7 @@ from deltasplice.models.delta_pretrain import MainModel
 from functools import partial
 default_model_paths=[f"pretrained_models/DeltaSplice_models/model.ckpt-{i}" for i in range(5)]
 default_model_human_paths=[f"pretrained_models/DeltaSplice_human/model.ckpt-{i}" for i in range(5)]
+default_anno_file="data/anno/data.json"
 
 repdict = {"A": "T", "T": "A", "C": "G", "G": "C", "N": "N", '-': '-'}
 SeqTable = {"N": 0, "A": 1, "C": 2, "G": 3, "T": 4, "-": 5}
