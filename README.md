@@ -94,7 +94,7 @@ For the prediciton of delta-SSU for mutations without given exon information, th
     | chr1    | 114161115    | G   | A   | +      |
     | chr1    | 119584866    | G   | C   | -      |
 
-#### usage:
+#### Usage:
 
   Run following code to generate prediction results
 >>>
