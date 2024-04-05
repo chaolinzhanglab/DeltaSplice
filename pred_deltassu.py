@@ -15,6 +15,7 @@ def main():
     parser.add_argument("--data_path", help="the path to input file")
     parser.add_argument("--save_path", help="the path to output file")
     parser.add_argument("--use_reference", help="whether use the default reference information", default=False, action="store_true")
+    parser.add_argument("--simple_output", help="whether only given one prediction value to each mutation", default=False, action="store_true")
     parser.add_argument("--window_size", type=int, default=200, help="when exon is not given, the size of the window around the predicted mutation.")
     parser.add_argument("--genome", help="reference genome")
     args = parser.parse_args()
@@ -38,19 +39,26 @@ def main():
     # prediction without given exons and ssu
     if "exon_start" not in input_file.keys():
         print("predicting without exon information ...")
-        save_file.writelines("chrom,mut_position,strand,position,reference_acceptor_ssu,reference_donor_ssu,pred_ref_acceptor_ssu,pred_ref_donor_ssu,pred_acceptor_deltassu,pred_donor_deltassu\n") 
+        if not args.simple_output:
+            save_file.writelines("chrom,mut_position,strand,position,reference_acceptor_ssu,reference_donor_ssu,pred_ref_acceptor_ssu,pred_ref_donor_ssu,pred_acceptor_deltassu,pred_donor_deltassu\n") 
+        else:
+            save_file.writelines("chrom,mut_position,strand,pred_acceptor_deltassu,pred_donor_deltassu\n") 
         for chrom, mut_pos,ref,alt, strand in zip(input_file["chrom"], input_file["mut_position"],input_file["ref"], input_file["alt"], input_file["strand"]):
             pos=mut_pos  
             seq_start=pos-(EL+CL)//2
             seq_end=seq_start+EL+CL
-            
+            if len(ref)>1 or len(alt)>1 or strand not in ["+", "-"]:
+                if  args.simple_output:
+                    save_file.writelines(f"{chrom},{mut_pos},{strand},Nan,Nan\n")
+                
+                continue
             seq=reference_genome[chrom][max(seq_start, 0):min(seq_end, len(reference_genome[chrom]))].upper()
             
             if seq_start<0:
                 seq="N"*abs(seq_start)+seq
             if seq_end>len(reference_genome[chrom]):
                 seq=seq+"N"*abs(seq_start)
-            assert seq[mut_pos-seq_start]==ref.upper()
+            assert seq[mut_pos-seq_start]==ref.upper(), f"{ref} {seq[mut_pos-seq_start-1:mut_pos-seq_start+2]}"
             assert seq[len(seq)//2]==ref.upper()
             mutseq=seq[:mut_pos-seq_start]+alt.upper()+seq[mut_pos-seq_start+1:]
             refmat=np.zeros((CL+EL, 3))
@@ -98,6 +106,8 @@ def main():
             
             write_window_start=pred_ref.shape[1]//2-args.window_size//2
             write_window_end=pred_ref.shape[1]//2+args.window_size//2
+            max_acceptor_impact=0
+            max_donor_impact=0
             
             for i in range(write_window_start, write_window_end+1):
                 acceptor_ref=refmat[0, i, 1]
@@ -106,17 +116,26 @@ def main():
                 donor_ref_pred=pred_ref[0, i, 2]
                 acceptor_delta=pred_delta[0, i, 1]
                 donor_delta=pred_delta[0, i, 2]
-                position=pos-args.window_size//2+i-write_window_start
+                if abs(acceptor_delta)>abs(max_acceptor_impact):
+                    max_acceptor_impact=acceptor_delta
+                if abs(donor_delta)>abs(max_donor_impact):
+                    max_donor_impact=donor_delta
                 
-                save_file.writelines(f"{chrom},{mut_pos},{strand},{position},{acceptor_ref},{donor_ref},{acceptor_ref_pred},{donor_ref_pred},{acceptor_delta},{donor_delta}\n")
+                position=pos-args.window_size//2+i-write_window_start
+                if not args.simple_output:
+                    save_file.writelines(f"{chrom},{mut_pos},{strand},{position},{acceptor_ref},{donor_ref},{acceptor_ref_pred},{donor_ref_pred},{acceptor_delta},{donor_delta}\n")
+            
+            if args.simple_output:
+                save_file.writelines(f"{chrom},{mut_pos},{strand},{max_acceptor_impact},{max_donor_impact}\n")
         save_file.close()
     else:
-        save_file.writelines("chrom,mut_position,strand,exon_start,exon_end,ssu,pred_ref,pred_deltassu\n")
-        for chrom, mut_pos,ref,alt, strand,jn_start, jn_end, ssu in zip(input_file["chrom"], input_file["mut_position"],input_file["ref"], input_file["alt"], input_file["strand"], input_file["exon_end"], input_file["exon_start"], input_file["ssu"]):
+        save_file.writelines("chrom,mut_position,strand,exon_start,exon_end,pred_ref_acceptor_ssu,pred_ref_donor_ssu,pred_acceptor_deltassu,pred_donor_deltassu\n")
+        for chrom, mut_pos,ref,alt, strand,jn_start, jn_end, acceptor_ssu, donor_ssu in zip(input_file["chrom"], input_file["mut_position"],input_file["ref"], input_file["alt"], input_file["strand"], input_file["exon_end"], input_file["exon_start"], input_file["acceptor_ssu"], input_file["donor_ssu"]):
             pos=(jn_start+jn_end)//2        
             seq_start=pos-(EL+CL)//2
             seq_end=seq_start+EL+CL
-            ssu=max(ssu, 1e-3)
+            acceptor_ssu=max(acceptor_ssu, 1e-3)
+            donor_ssu=max(donor_ssu, 1e-3)
             
             seq=reference_genome[chrom][max(seq_start, 0):min(seq_end, len(reference_genome[chrom]))].upper()
             
@@ -132,47 +151,49 @@ def main():
                 species=args.genome.split("/")[-1].replace(".fa", "")
                 assert species in SortedKeys, f"{args.genome} not exists in default reference"
                 if str(jn_end) in default_anno_info[species][chrom][strand]:
-                    ssu_end=sum( default_anno_info[species][chrom][strand][str(jn_end)])
-                    if np.isnan(ssu_end):
-                        ssu_end=None
+                    ssu_end=np.array(default_anno_info[species][chrom][strand][str(jn_end)])
+                    ssu_end[np.isnan(ssu_end)]=1e-3
                 else:
                     print(f"{jn_end} not in defalt reference ssu")
-                    ssu_end=None
+                    ssu_end=np.zeros(3)
                     
                 if str(jn_start) in default_anno_info[species][chrom][strand]:
-                    ssu_start= sum(default_anno_info[species][chrom][strand][str(jn_start)])
-                    if np.isnan(ssu_start):
-                        ssu_start=None
+                    ssu_start= np.array(default_anno_info[species][chrom][strand][str(jn_start)])
+                    ssu_start[np.isnan(ssu_start)]=1e-3
                 else:
                     print(f"{jn_start} not in defalt reference ssu")
-                    ssu_start=None
-                if ssu_end is not None and ssu_start is not None:
-                    ssu=(ssu_start+ssu_end)/2
-                elif ssu_end is not None:
-                    ssu=ssu_end
-                elif ssu_start is not None:
-                    ssu=ssu_start
+                    ssu_start=np.zeros(3)
+            else:
+                ssu_start=np.zeros(3)
+                ssu_end=np.zeros(3)
+                if strand=="-":
+                    ssu_end[..., 2]=donor_ssu
+                    ssu_start[..., 1]=acceptor_ssu
                 else:
-                    print(f"exon not found, 1e-3 will be used as ssu")
-                    ssu=1e-3
-                ssu=max(ssu, 1e-3)
+                    ssu_end[..., 1]=acceptor_ssu
+                    ssu_start[..., 2]=donor_ssu
                 
             if strand=="-":
                 seq=[repdict[_] for _ in seq][::-1]
                 mutseq=[repdict[_] for _ in mutseq][::-1]
-                
-                refmat[jn_end-seq_start, 2]=ssu
-                refmat[jn_start-seq_start, 1]=ssu
+                if ssu_end[..., 2]==0:
+                    ssu_end[..., 2]=1e-3
+                if ssu_start[..., 1]==0:
+                    ssu_start[..., 1]=1e-3
+                refmat[jn_end-seq_start]=ssu_end
+                refmat[jn_start-seq_start]=ssu_start
                 refmat=refmat[::-1]
             else:
-                refmat[jn_start-seq_start, 2]=ssu
-                refmat[jn_end-seq_start, 1]=ssu
-                
+                if ssu_end[..., 1]==0:
+                    ssu_end[..., 1]=1e-3
+                if ssu_start[..., 2]==0:
+                    ssu_start[..., 2]=1e-3
+                refmat[jn_start-seq_start]=ssu_start
+                refmat[jn_end-seq_start]=ssu_end
                 
             seq=IN_MAP[[SeqTable[_] for _ in seq]][:, :4]
             mutseq=IN_MAP[[SeqTable[_] for _ in mutseq]][:, :4]
             refmat[:, 0]=1-refmat[:, 1:].sum(-1)
-            
             refmat=refmat[EL//2:EL//2+CL].copy()
             
             
@@ -185,10 +206,14 @@ def main():
             pred_ref = sum([v["single_pred_psi"] for v in pred])/len(pred)
             pred_delta = sum([v["mutY"] for v in pred])/len(pred)-pred_ref
             
-            position=np.nonzero(refmat[:, 1:].reshape(-1))
-            pred_ref=(pred_ref[:, :, 1:].reshape(-1)[position]).mean()
-            pred_delta=(pred_delta[:, :, 1:].reshape(-1)[position]).mean()
-            save_file.writelines(f"{chrom},{mut_pos},{ref},{alt},{strand},{jn_end},{jn_start},{ssu},{pred_ref},{pred_delta}\n")
+            acceptor_position=np.nonzero(refmat[:, 1])
+            donor_position=np.nonzero(refmat[:, 2])
+            pred_acceptor_ref=(pred_ref[:, :, 1].reshape(-1)[acceptor_position]).mean()
+            pred_donor_ref=(pred_ref[:, :, 2].reshape(-1)[donor_position]).mean()
+            pred_acceptor_delta=(pred_delta[:, :, 1].reshape(-1)[acceptor_position]).mean()
+            pred_donor_delta=(pred_delta[:, :, 2].reshape(-1)[donor_position]).mean()
+
+            save_file.writelines(f"{chrom},{mut_pos},{ref},{alt},{strand},{jn_end},{jn_start},{pred_acceptor_ref},{pred_donor_ref},{pred_acceptor_delta},{pred_donor_delta}\n")
         save_file.close()
             
         

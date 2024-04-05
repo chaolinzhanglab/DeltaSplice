@@ -48,14 +48,12 @@ The description of the header in the output file of DeltaSplice is as follows:
     |      mut_position      | zero-based coordinates of mutation sites                  |
     | reference_acceptor_ssu | reference SSU used in mutation prediction (acceptor)      |
     |  reference_donor_ssu   | reference SSU used in mutation prediction (donor)         |
-    |        pred_ref        | predicted SSU for the reference allele when exon is given |
     |  pred_ref_acceptor_ssu | predicted SSU for the reference allele (acceptor)         |
     |   pred_ref_donor_ssu   | predicted SSU for the reference allele (donor)            |
-    |     pred_deltassu      | predicted delta-SSU for mutations when exon is given      |
     | pred_acceptor_deltassu | predicted delta-SSU for mutations (acceptor)              |
     |   pred_donor_deltassu  | predicted delta-SSU for mutations (donor)                 |
 
-It is worth noting that when predicting SSU, we given predicted acceptor SSU and donor SSU for all sites. However, the predicted score holds significance only when it exceeds 1e-3. When predicting delta-SSU values for mutations, if specific exons are provided, DeltaSplice exclusively predicts the delta-SSU for these exons. In cases where exons are not specified, DeltaSplice predicts the delta-SSU values for both acceptors and donors.
+It is worth noting that when predicting SSU, we given both the predicted acceptor SSU and donor SSU. However, the predicted score holds significance only when it exceeds 1e-3. When predicting delta-SSU values for mutations, if specific exons are provided, DeltaSplice exclusively predicts the delta-SSU for these exons. In cases where exons are not specified, DeltaSplice predicts both acceptor and donor delta-SSU values.
 
 ### SSU prediction
 
@@ -98,9 +96,9 @@ For the prediciton of delta-SSU for mutations without given exon information, th
 
   Run following code to generate prediction results
 >>>
-    # not use default reference ssu
+    # Exon positions are unspecified and do not use reference information
     python pred_deltassu.py --data_path /path/to/data --save_path /path/to/save  --window_size 200  --genome reference_genome 
-    # use default reference ssu
+    #  Exon positions are unspecified and use SSU values of brain tissues from RNA-seq data as reference
     python pred_deltassu.py --data_path /path/to/data --save_path /path/to/save  --window_size 200  --genome reference_genome --use_reference
 >>>
 
@@ -109,30 +107,33 @@ Required parameters:
  - ```--data_path```: Input CSV file with coordinates, ref/alt bases, strands and exon positions. Please refer to `data/vexseq_out.csv`.
  - ```--save_path```: Output CSV file with prediction results. The output file contains eight columns, i.e. chrom, mut_position, strand, exon_start, exon_end, ssu, pred_ref, pred_deltassu, where pred_ref is the predicted SSU for the sequence before mutation, and pred_deltassu is the predicted delta-SSU for current mutation.
  - ```--window_size```: Predicted window size around mutation sites, the default value is 200.
- - ```--use_reference```: Whether use the default usage information, the default value is False.
+ - ```--use_reference```: Whether use the default SSU information of brain tissues from RNA-seq data. The default value is False.
  - ```--genome```   : Which reference genome to use, for example, hg19, hg38 or other reference genomes. The default path for reference genome is `data/genomes`.
 #### Example:
 
 >>>
+    # Exon positions are unspecified and do not use reference information
     python pred_deltassu.py --data_path data/vexseq_wo_exon.csv  --save_path data/vexseq_woexon_out.csv --window_size 200  --genome hg19 
+    # Exon positions are unspecified and use SSU values of brain tissues from RNA-seq data as reference
+    python pred_deltassu.py --data_path data/vexseq_wo_exon.csv  --save_path data/vexseq_woexon_wref_out.csv --window_size 200  --genome hg19 --use_reference
 >>>
 
 ### Delta-SSU prediction with exon information
 
-For the prediction of delta-SSU for mutations with given exons, the input file should be in csv format and contain the following columns, in which if there's no SSU information, set SSU as Nan. Note that all positions should be zero-based. Here ssu means SSU of the reference allele, and ref/alt are bases on the positive strand.
+For the prediction of delta-SSU for mutations with given exons, the input file should be in csv format and contain the following columns, in which if there's no SSU information, set acceptor_ssu and donor_ssu as Nan. Note that all positions should be zero-based. Here ref/alt are bases on the positive strand.
 
-    | chrom   | mut_position | ref | alt | strand | exon_start | exon_end | ssu   |
-    |---------|--------------|-----|-----|--------|------------|----------|-------|
-    | chr1    | 114161115    | G   | A   | +      | 114161153  |114161227 | 0.4888|
-    | chr1    | 119584866    | G   | C   | -      | 119584886  |119584971 | 0.8859|
+    | chrom   | mut_position | ref | alt | strand | exon_start | exon_end | acceptor_ssu|donor_ssu|
+    |---------|--------------|-----|-----|--------|------------|----------|-------------|---------|
+    | chr1    | 114161115    | G   | A   | +      | 114161153  |114161227 |   0.4888    | 0.4888  |
+    | chr1    | 119584866    | G   | C   | -      | 119584886  |119584971 |   0.8859    | 0.8859  |
 
 #### Usage:
 Note that 5' splice site is represented by the upstream nucleotide (junction start) and 3' splice site is represented by the downstream nucleotide (junction end).
   Run following code to generate prediction results
 >>>
-    # not use default reference ssu
+    # do not use SSU values in brain tissues from RNA-seq data as reference information
     python pred_deltassu.py --data_path /path/to/data --save_path /path/to/save  --genome reference_genome 
-    # use default reference ssu
+    # use SSU values in brain tissues from RNA-seq data as reference information
     python pred_deltassu.py --data_path /path/to/data --save_path /path/to/save  --genome reference_genome --use_reference
 >>>
 
@@ -145,7 +146,10 @@ Required parameters:
 #### Example:
 
 >>>
+    # do not use SSU values in brain tissues from RNA-seq data as reference information
     python pred_deltassu.py --data_path data/vexseq.csv  --save_path data/vexseq_out.csv --genome hg19 
+    # use SSU values in brain tissues from RNA-seq data as reference information
+    python pred_deltassu.py --data_path data/vexseq.csv  --save_path data/vexseq_out.csv --genome hg19 --use_reference
 >>>
 
 ## Train models from scratch
