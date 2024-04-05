@@ -129,7 +129,7 @@ def main():
                 save_file.writelines(f"{chrom},{mut_pos},{strand},{max_acceptor_impact},{max_donor_impact}\n")
         save_file.close()
     else:
-        save_file.writelines("chrom,mut_position,strand,exon_start,exon_end,pred_ref_acceptor_ssu,pred_ref_donor_ssu,pred_acceptor_deltassu,pred_donor_deltassu\n")
+        save_file.writelines("chrom,mut_position,ref,alt,strand,exon_start,exon_end,pred_ref_acceptor_ssu,pred_ref_donor_ssu,pred_acceptor_deltassu,pred_donor_deltassu\n")
         for chrom, mut_pos,ref,alt, strand,jn_start, jn_end, acceptor_ssu, donor_ssu in zip(input_file["chrom"], input_file["mut_position"],input_file["ref"], input_file["alt"], input_file["strand"], input_file["exon_end"], input_file["exon_start"], input_file["acceptor_ssu"], input_file["donor_ssu"]):
             pos=(jn_start+jn_end)//2        
             seq_start=pos-(EL+CL)//2
@@ -206,12 +206,11 @@ def main():
             pred_ref = sum([v["single_pred_psi"] for v in pred])/len(pred)
             pred_delta = sum([v["mutY"] for v in pred])/len(pred)-pred_ref
             
-            acceptor_position=np.nonzero(refmat[:, 1])
-            donor_position=np.nonzero(refmat[:, 2])
-            pred_acceptor_ref=(pred_ref[:, :, 1].reshape(-1)[acceptor_position]).mean()
-            pred_donor_ref=(pred_ref[:, :, 2].reshape(-1)[donor_position]).mean()
-            pred_acceptor_delta=(pred_delta[:, :, 1].reshape(-1)[acceptor_position]).mean()
-            pred_donor_delta=(pred_delta[:, :, 2].reshape(-1)[donor_position]).mean()
+            
+            pred_acceptor_ref=(pred_ref[:, :, 1].reshape(-1)[refmat[:, 1]>0]).mean()
+            pred_donor_ref=(pred_ref[:, :, 2].reshape(-1)[refmat[:, 2]>0]).mean()
+            pred_acceptor_delta=(pred_delta[:, :, 1].reshape(-1)[refmat[:, 1]>0]).mean()
+            pred_donor_delta=(pred_delta[:, :, 2].reshape(-1)[refmat[:, 2]>0]).mean()
 
             save_file.writelines(f"{chrom},{mut_pos},{ref},{alt},{strand},{jn_end},{jn_start},{pred_acceptor_ref},{pred_donor_ref},{pred_acceptor_delta},{pred_donor_delta}\n")
         save_file.close()
