@@ -34,7 +34,7 @@ Download genome reference and liftOver files from UCSC and save them to `data/ge
 >>>
 
 ## Quick start with pretrained model
-Currently DeltaSplice support the prediction of SSU and delta-SSU for mutations. Example data are provided under `data/` and pretrained models are under `pretrained_models`. The file `deltasplice/constant.py` contains the default path to pretrained models and reference genomes. The average prediction of five models under `pretrained_models/DeltaSplice_models/` is used as the final prediction for SSU and delta-SSU.
+Currently DeltaSplice support the prediction of SSU and delta-SSU for mutations. Example data are provided under `data/` and pretrained models are under `pretrained_models`. The file `deltasplice/constant.py` contains the default path to pretrained models and reference genomes. The average prediction of five models under `pretrained_models/DeltaSplice_models/` is used as the final prediction for SSU and delta-SSU. Here, splice acceptor refers to the second nucleotide of the corresponding exon, and splice donor refers to the second-to-last nucluotide of the corresponding exon.
 
 The description of the header in the output file of DeltaSplice is as follows:
 
@@ -46,12 +46,14 @@ The description of the header in the output file of DeltaSplice is as follows:
     |      acceptor_ssu      | predicted SSU (acceptor)                                  |
     |       donor_ssu        | predicted SSU (donor)                                     |
     |      mut_position      | zero-based coordinates of mutation sites                  |
-    | reference_acceptor_ssu | reference SSU used in mutation prediction (acceptor)      |
-    |  reference_donor_ssu   | reference SSU used in mutation prediction (donor)         |
-    |  pred_ref_acceptor_ssu | predicted SSU for the reference allele (acceptor)         |
-    |   pred_ref_donor_ssu   | predicted SSU for the reference allele (donor)            |
-    | pred_acceptor_deltassu | predicted delta-SSU for mutations (acceptor)              |
-    |   pred_donor_deltassu  | predicted delta-SSU for mutations (donor)                 |
+    |           ref          | reference base before mutation                            |
+    |           alt          | alternative base after mutation                           |
+    | reference_acceptor_ssu | reference SSUs used in mutation prediction (acceptor)     |
+    |  reference_donor_ssu   | reference SSUs used in mutation prediction (donor)        |
+    |  pred_ref_acceptor_ssu | predicted SSUs for the reference allele (acceptor)        |
+    |   pred_ref_donor_ssu   | predicted SSUs for the reference allele (donor)           |
+    | pred_acceptor_deltassu | predicted delta-SSUs for mutations (acceptor)             |
+    |   pred_donor_deltassu  | predicted delta-SSUs for mutations (donor)                |
 
 It is worth noting that when predicting SSU, we given both the predicted acceptor SSU and donor SSU. However, the predicted score holds significance only when it exceeds 1e-3. When predicting delta-SSU values for mutations, if specific exons are provided, DeltaSplice exclusively predicts the delta-SSU for these exons. In cases where exons are not specified, DeltaSplice predicts both acceptor and donor delta-SSU values.
 
@@ -64,6 +66,7 @@ For the prediction of SSU, the input file should be in the csv format with chrom
     | chr1    | 151003847| +      |
     | chr1    | 176015316| -      |
 
+The output file contains chrom, position, strand, acceptor_ssu, and donor_ssu columns.
 #### Usage:
 
 Run following code to generate prediction results, in which the reference genome is used to extract input sequences.
@@ -91,6 +94,8 @@ For the prediciton of delta-SSU for mutations without given exon information, th
     |---------|--------------|-----|-----|--------|
     | chr1    | 114161115    | G   | A   | +      |
     | chr1    | 119584866    | G   | C   | -      |
+
+The output file contains chrom, mut_position, ref, alt, strand, position, reference_acceptor_ssu, reference_donor_ssu, pred_ref_acceptor_ssu, pred_ref_donor_ssu, pred_acceptor_deltassu and pred_donor_deltassu columns.
 
 #### Usage:
 
@@ -127,6 +132,7 @@ For the prediction of delta-SSU for mutations with given exons, the input file s
     | chr1    | 114161115    | G   | A   | +      | 114161153  |114161227 |   0.4888    | 0.4888  |
     | chr1    | 119584866    | G   | C   | -      | 119584886  |119584971 |   0.8859    | 0.8859  |
 
+The output file contains chrom, mut_position, ref, alt, strand, reference_acceptor_ssu, reference_donor_ssu, pred_ref_acceptor_ssu, pred_ref_donor_ssu, pred_acceptor_deltassu and pred_donor_deltassu columns.
 #### Usage:
 Note that 5' splice site is represented by the upstream nucleotide (junction start) and 3' splice site is represented by the downstream nucleotide (junction end).
   Run following code to generate prediction results
@@ -149,7 +155,7 @@ Required parameters:
     # do not use SSU values in brain tissues from RNA-seq data as reference information
     python pred_deltassu.py --data_path data/vexseq.csv  --save_path data/vexseq_out.csv --genome hg19 
     # use SSU values in brain tissues from RNA-seq data as reference information
-    python pred_deltassu.py --data_path data/vexseq.csv  --save_path data/vexseq_out.csv --genome hg19 --use_reference
+    python pred_deltassu.py --data_path data/vexseq.csv  --save_path data/vexseq_out_wref.csv --genome hg19 --use_reference
 >>>
 
 ## Train models from scratch

@@ -40,7 +40,7 @@ def main():
     if "exon_start" not in input_file.keys():
         print("predicting without exon information ...")
         if not args.simple_output:
-            save_file.writelines("chrom,mut_position,strand,position,reference_acceptor_ssu,reference_donor_ssu,pred_ref_acceptor_ssu,pred_ref_donor_ssu,pred_acceptor_deltassu,pred_donor_deltassu\n") 
+            save_file.writelines("chrom,mut_position,ref,alt,strand,position,reference_acceptor_ssu,reference_donor_ssu,pred_ref_acceptor_ssu,pred_ref_donor_ssu,pred_acceptor_deltassu,pred_donor_deltassu\n") 
         else:
             save_file.writelines("chrom,mut_position,strand,pred_acceptor_deltassu,pred_donor_deltassu\n") 
         for chrom, mut_pos,ref,alt, strand in zip(input_file["chrom"], input_file["mut_position"],input_file["ref"], input_file["alt"], input_file["strand"]):
@@ -109,6 +109,13 @@ def main():
             max_acceptor_impact=0
             max_donor_impact=0
             
+            positions=[]
+            acceptor_refs=[]
+            donor_refs=[]
+            acceptor_ref_preds=[]
+            donor_ref_preds=[]
+            acceptor_deltas=[]
+            donor_deltas=[]
             for i in range(write_window_start, write_window_end+1):
                 acceptor_ref=refmat[0, i, 1]
                 donor_ref=refmat[0, i, 2]
@@ -122,14 +129,23 @@ def main():
                     max_donor_impact=donor_delta
                 
                 position=pos-args.window_size//2+i-write_window_start
-                if not args.simple_output:
-                    save_file.writelines(f"{chrom},{mut_pos},{strand},{position},{acceptor_ref},{donor_ref},{acceptor_ref_pred},{donor_ref_pred},{acceptor_delta},{donor_delta}\n")
+                
+                positions.append(str(position))
+                acceptor_refs.append(str(acceptor_ref))
+                donor_refs.append(str(donor_ref))
+                acceptor_ref_preds.append(str(acceptor_ref_pred))
+                donor_ref_preds.append(str(donor_ref_pred))
+                acceptor_deltas.append(str(acceptor_delta))
+                donor_deltas.append(str(donor_delta))
+            
+            if not args.simple_output:
+                save_file.writelines(f'{chrom},{mut_pos},{ref},{alt},{strand},{";".join(positions)},{";".join(acceptor_refs)},{";".join(donor_refs)},{";".join(acceptor_ref_preds)},{";".join(donor_ref_preds)},{";".join(acceptor_deltas)},{";".join(donor_deltas)}\n')
             
             if args.simple_output:
-                save_file.writelines(f"{chrom},{mut_pos},{strand},{max_acceptor_impact},{max_donor_impact}\n")
+                save_file.writelines(f"{chrom},{mut_pos},{ref},{alt},{strand},{max_acceptor_impact},{max_donor_impact}\n")
         save_file.close()
     else:
-        save_file.writelines("chrom,mut_position,ref,alt,strand,exon_start,exon_end,pred_ref_acceptor_ssu,pred_ref_donor_ssu,pred_acceptor_deltassu,pred_donor_deltassu\n")
+        save_file.writelines("chrom,mut_position,ref,alt,strand,reference_acceptor_ssu,reference_donor_ssu,pred_ref_acceptor_ssu,pred_ref_donor_ssu,pred_acceptor_deltassu,pred_donor_deltassu\n")
         for chrom, mut_pos,ref,alt, strand,jn_start, jn_end, acceptor_ssu, donor_ssu in zip(input_file["chrom"], input_file["mut_position"],input_file["ref"], input_file["alt"], input_file["strand"], input_file["exon_end"], input_file["exon_start"], input_file["acceptor_ssu"], input_file["donor_ssu"]):
             pos=(jn_start+jn_end)//2        
             seq_start=pos-(EL+CL)//2
@@ -211,8 +227,10 @@ def main():
             pred_donor_ref=(pred_ref[:, :, 2].reshape(-1)[refmat[:, 2]>0]).mean()
             pred_acceptor_delta=(pred_delta[:, :, 1].reshape(-1)[refmat[:, 1]>0]).mean()
             pred_donor_delta=(pred_delta[:, :, 2].reshape(-1)[refmat[:, 2]>0]).mean()
+            acceptor_ref=(refmat[..., 1].reshape(-1)[refmat[:, 1]>0]).mean()
+            donor_ref=(refmat[..., 2].reshape(-1)[refmat[:, 2]>0]).mean()
 
-            save_file.writelines(f"{chrom},{mut_pos},{ref},{alt},{strand},{jn_end},{jn_start},{pred_acceptor_ref},{pred_donor_ref},{pred_acceptor_delta},{pred_donor_delta}\n")
+            save_file.writelines(f"{chrom},{mut_pos},{ref},{alt},{strand},{acceptor_ref},{donor_ref},{pred_acceptor_ref},{pred_donor_ref},{pred_acceptor_delta},{pred_donor_delta}\n")
         save_file.close()
             
         
