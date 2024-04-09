@@ -25,12 +25,16 @@ def annotate(Lines, WDict):
                 assert idx not in WDict[fa][chrom]["+"] or WDict[fa][chrom]["+"][idx][2] == 0 or WDict[fa][chrom]["+"][idx][2] == v or np.isnan(v) or np.isnan(WDict[fa][chrom]["+"][idx][2])
                 if idx not in WDict[fa][chrom]["+"] or WDict[fa][chrom]["+"][idx][2] == 0 or np.isnan(WDict[fa][chrom]["+"][idx][2]):
                     WDict[fa][chrom]["+"][idx] = [0, 0, 0]
+                    if v==0:
+                        v=1e-3
                     WDict[fa][chrom]["+"][idx][2] = v
             for idx, v in zip(ss5s, ss5vs):
                 assert np.isnan(v) or (v > 0 and v <= 1.0)
                 assert idx not in WDict[fa][chrom]["+"] or WDict[fa][chrom]["+"][idx][1] == 0 or WDict[fa][chrom]["+"][idx][1] == v or np.isnan(v) or np.isnan(WDict[fa][chrom]["+"][idx][1])
                 if idx not in WDict[fa][chrom]["+"] or WDict[fa][chrom]["+"][idx][1] == 0 or np.isnan(WDict[fa][chrom]["+"][idx][1]):
                     WDict[fa][chrom]["+"][idx] = [0, 0, 0]
+                    if v==0:
+                        v=1e-3
                     WDict[fa][chrom]["+"][idx][1] = v
         else:
             assert strand == "-"
@@ -39,12 +43,16 @@ def annotate(Lines, WDict):
                 assert idx not in WDict[fa][chrom]["-"] or WDict[fa][chrom]["-"][idx][1] == 0 or WDict[fa][chrom]["-"][idx][1] == v or np.isnan(v) or np.isnan(WDict[fa][chrom]["-"][idx][1])
                 if idx not in WDict[fa][chrom]["-"] or WDict[fa][chrom]["-"][idx][1] == 0 or np.isnan(WDict[fa][chrom]["-"][idx][1]):
                     WDict[fa][chrom]["-"][idx] = [0, 0, 0]
+                    if v==0:
+                        v=1e-3
                     WDict[fa][chrom]["-"][idx][1] = v
             for idx, v in zip(ss5s, ss5vs):
                 assert np.isnan(v) or (v > 0 and v <= 1.0)
                 assert idx not in WDict[fa][chrom]["-"] or WDict[fa][chrom]["-"][idx][2] == 0 or WDict[fa][chrom]["-"][idx][2] == v or np.isnan(v) or np.isnan(WDict[fa][chrom]["-"][idx][2])
                 if idx not in WDict[fa][chrom]["-"] or WDict[fa][chrom]["-"][idx][2] == 0 or np.isnan(WDict[fa][chrom]["-"][idx][2]):
                     WDict[fa][chrom]["-"][idx] = [0, 0, 0]
+                    if v==0:
+                        v=1e-3
                     WDict[fa][chrom]["-"][idx][2] = v
 
     logger.info("Finish writeing {}/{}".format(Fa, Chr))
