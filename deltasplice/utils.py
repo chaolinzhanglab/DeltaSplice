@@ -472,13 +472,18 @@ def write_splice_sites(fouts, CHROM, NAME, STRAND, TX_START, TX_END, SPECIES, Yp
             y_t = np.copy(Yt[i, :, c])
             y_t[np.isnan(y_t)] = 1
             idx = np.nonzero(y_t > 1e-10)[0]  # positions of true splice sites
-
+            EL=(tx_end-tx_start-y_t.shape[0])//2
             for j in idx:
-                pos = (tx_start + tx_end)//2
-
+                if strand=="+":
+                    pos = tx_start+j+EL+1
+                else:
+                    pos=tx_end-EL-j
                 yt = [str(Yt[i, j, c])]
                 yp = [str(Yp[i, j, c])]
-
+                key=f"{species}_{chrom}_{pos}_{name}_{strand}"
+                if key in exist_combine:
+                    continue
+                exist_combine.add(key)
                 line = "\t".join(
                     map(
                         str,
