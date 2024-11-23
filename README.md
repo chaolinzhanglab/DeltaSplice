@@ -4,7 +4,7 @@ A neural network model to predict splice site usage and splicing-altering mutati
 
 Citation:
 
-Xu, C., Bao, S., Chen, H., Jiang, T., Zhang, C. "Reference-informed prediction of alternative splicing and splicing-altering mutations from sequences." *In submission*.
+Xu, C., Bao, S., Wang, Y., Li, W., Chen, H., Shen, Y., ... & Zhang, C. (2024). Reference-informed prediction of alternative splicing and splicing-altering mutations from sequences. *Genome Research*, 34(7), 1052-1065.
 
 ## Installation
 [Anaconda](https://www.anaconda.com/download)  is recommended for installation. 
