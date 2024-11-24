@@ -104,6 +104,7 @@ def get_prediction(inp, models, use_ref, ys=None):
 
 def get_delta_prediction(record, distance, reference_genome, use_ref, ann, mask):
     cov=2*distance+1
+    CL=cov
     wid=10000+cov
     delta_scores=[]
     
@@ -174,7 +175,8 @@ def get_delta_prediction(record, distance, reference_genome, use_ref, ann, mask)
             pred = [m.predict(d, use_ref=use_ref) for m in ann.models]
             pred_ref = sum([v["single_pred_psi"] for v in pred])/len(pred)
             pred_alt = sum([v["mutY"] for v in pred])/len(pred)
-            
+    
+            assert cov==pred_ref.shape[1], f"{cov} {pred_ref.shape}"
             if strands[i] == '-':
                 pred_ref = pred_ref[:, ::-1]
                 pred_alt = pred_alt[:, ::-1]
@@ -183,7 +185,6 @@ def get_delta_prediction(record, distance, reference_genome, use_ref, ann, mask)
             del_len = max(ref_len-alt_len, 0)
             dist_ann = ann.get_pos_data(idxs[i], record.pos)
            
-            cov=pred_ref.shape[1]
             if ref_len > 1 and alt_len == 1:
                 y_alt = np.concatenate([
                     y_alt[:, :cov//2+alt_len],
@@ -203,7 +204,7 @@ def get_delta_prediction(record, distance, reference_genome, use_ref, ann, mask)
             idx_na = (y[0, :, 1]-y[1, :, 1]).argmax()
             idx_pd = (y[1, :, 2]-y[0, :, 2]).argmax()
             idx_nd = (y[0, :, 2]-y[1, :, 2]).argmax()
-
+           
             mask_pa = np.logical_and((idx_pa-cov//2 == dist_ann[2]), mask)
             mask_na = np.logical_and((idx_na-cov//2 != dist_ann[2]), mask)
             mask_pd = np.logical_and((idx_pd-cov//2 == dist_ann[2]), mask)

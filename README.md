@@ -6,6 +6,33 @@ Citation:
 
 Xu, C., Bao, S., Wang, Y., Li, W., Chen, H., Shen, Y., ... & Zhang, C. (2024). Reference-informed prediction of alternative splicing and splicing-altering mutations from sequences. *Genome Research*, 34(7), 1052-1065.
 
+## Update
+Now we align the input format with [SpliceAI](https://github.com/Illumina/SpliceAI/tree/master). Installation:
+
+>>>
+    cd deltasplice/data/anno
+    tar -xzvf data.tar.gz
+    cd ../../..
+    pip install .
+>>>
+
+Usage:
+>>>
+    deltasplice -I test.vcf -O temp.vcf -R data/genomes/hg19.fa  -A grch37 -U 1 -M 0
+>>>
+
+Required parameters:
+
+    -I: Input VCF with variants of interest.
+    -O: Output VCF with deltasplice predictions ALLELE|SYMBOL|DS_AG|DS_AL|DS_DG|DS_DL|DP_AG|DP_AL|DP_DG|DP_DL included in the INFO column (see table below for details). Only SNVs and simple INDELs (REF or ALT is a single base) within genes are annotated. Variants in multiple genes have separate predictions for each gene.
+    -R: Reference genome fasta file. Can be downloaded from GRCh37/hg19 or GRCh38/hg38.
+    -A: Gene annotation file. Can instead provide grch37 or grch38 to use GENCODE V24 canonical annotation files included with the package. To create custom gene annotation files, use deltasplice/annotations/grch37.txt in repository as template.
+Optional parameters:
+
+    -D: Maximum distance between the variant and gained/lost splice site (default: 50).
+    -U: Whether to use default reference sequences and reference usages (default: 1).
+    -M: Mask scores representing annotated acceptor/donor gain and unannotated acceptor/donor loss (default: 0).
+
 ## Installation
 [Anaconda](https://www.anaconda.com/download)  is recommended for installation. 
 >>>
