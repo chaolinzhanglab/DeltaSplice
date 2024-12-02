@@ -87,13 +87,13 @@ def main():
                     "mutX":torch.tensor(mutseq)[None],
                     "single_pred_psi":torch.tensor(refmat)[None]
                 }
-                use_ref=False
+                use_ref=True
             else:
                 d={
                     "X":torch.tensor(seq)[None],
                     "mutX":torch.tensor(mutseq)[None],
                 }
-                use_ref=True
+                use_ref=False
             pred = [m.predict(d, use_ref=use_ref) for m in Models]
             pred_ref = sum([v["single_pred_psi"] for v in pred])/len(pred)
             pred_delta = sum([v["mutY"] for v in pred])/len(pred)-pred_ref
