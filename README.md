@@ -13,6 +13,7 @@ Now we align the input format with [SpliceAI](https://github.com/Illumina/Splice
     cd deltasplice/data/anno
     tar -xzvf data.tar.gz
     cd ../../..
+    bash Tools/download_files.sh
     pip install .
 >>>
 
